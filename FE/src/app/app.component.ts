@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+declare var navigator: Navigator;
 
 @Component({
   selector: 'app-root',
