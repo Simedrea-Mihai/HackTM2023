@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
-import { Map, NavigationControl } from 'maplibre-gl';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
+import { Map, NavigationControl, Marker, Popup } from 'maplibre-gl';
+import { MapDetailsComponent } from '../map-details/map-details.component';
 
 @Component({
 	selector: 'app-map',
@@ -12,9 +13,20 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	@ViewChild('map')
 	private mapContainer!: ElementRef<HTMLElement>;
 
+  constructor(
+    private cfr: ComponentFactoryResolver,
+    private vcr: ViewContainerRef
+  ) {}
+  
+  // ...
+  
+
 	ngOnInit(): void {}
 
 	ngAfterViewInit() {
+    const componentFactory = this.cfr.resolveComponentFactory(MapDetailsComponent);
+    const componentRef = componentFactory.create(this.vcr.injector);
+
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(
 				(position) => {
@@ -30,7 +42,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						zoom: initialState.zoom
 					});
 
+          var popup = new Popup({ offset: 25 }).setDOMContent(componentRef.location.nativeElement);
+          
+          componentRef.changeDetectorRef.detectChanges();
+
+
 					this.map?.addControl(new NavigationControl({}), 'top-right');
+          new Marker({color: "#FF0000"})
+            .setLngLat([longitude, latitude])
+            .setPopup(popup) // add popups
+            .addTo(this.map);
 				},
 				(error) => {
 					console.log(`Geolocation error: ${error}`);
