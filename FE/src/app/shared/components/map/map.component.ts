@@ -38,6 +38,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	link: string = '';
 	date: string = '';
 
+	location: string = '';
+	lat = '';
+	lon = '';
+
+	showAddEvent = false;
+
 	@ViewChild('map')
 	private mapContainer!: ElementRef<HTMLElement>;
 
@@ -94,6 +100,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
 					const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V';
 					this.map.on('click', (e: any) => {
+						this.showAddEvent = true;
 						const coords = e.lngLat;
 						const authentication = ApiKeyManager.fromKey(apiKey);
 
@@ -126,6 +133,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					this.map?.addControl(new NavigationControl({}), 'top-right');
 
 					this.displayAllEvents();
+
+					this.lat = latitude.toString();
+					this.lon = longitude.toString();
 
 					// new Marker({ color: '#FF0000' }).setLngLat([longitude, latitude]).addTo(this.map);
 
