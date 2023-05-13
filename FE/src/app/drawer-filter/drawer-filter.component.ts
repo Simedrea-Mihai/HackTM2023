@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FilterService } from '../services/filter.service';
 import { Filter } from '../Models/filter.model';
@@ -8,7 +8,7 @@ import { Filter } from '../Models/filter.model';
 	templateUrl: './drawer-filter.component.html',
 	styleUrls: ['./drawer-filter.component.scss']
 })
-export class DrawerFilterComponent {
+export class DrawerFilterComponent implements OnInit {
 	@ViewChild('starDate') starDateRef!: ElementRef;
 	currentDate = new Date();
 	sevenDaysFromCurrentTime = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate() + 7);
@@ -27,6 +27,12 @@ export class DrawerFilterComponent {
 			unofficial: this.unofficial,
 			startDate: this.startDate,
 			endDate: this.endDate
+		});
+	}
+
+	ngOnInit(): void {
+		this.filterForm.valueChanges.subscribe((value) => {
+			// this.onSubmit();
 		});
 	}
 
