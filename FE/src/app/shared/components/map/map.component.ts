@@ -9,12 +9,14 @@ import {
 	ViewContainerRef,
 	inject
 } from '@angular/core';
-import { Map, NavigationControl, Marker, Popup } from 'maplibre-gl';
+import maplibregl, { Map, NavigationControl, Marker, Popup } from 'maplibre-gl';
 import { MapDetailsComponent } from '../map-details/map-details.component';
 import * as turf from '@turf/turf';
-import { DataService } from 'src/app/services/timisoara-points.servcie';
+import { DataService } from 'src/app/services/timisoara-points.service';
 import { ApiKeyManager } from '@esri/arcgis-rest-request';
 import { reverseGeocode } from '@esri/arcgis-rest-geocoding';
+import { GeocodingControl } from '@maptiler/geocoding-control/maplibregl';
+import { ServerApi } from 'src/app/services/server.service';
 
 @Component({
 	selector: 'app-map',
@@ -22,9 +24,10 @@ import { reverseGeocode } from '@esri/arcgis-rest-geocoding';
 	styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
-	map: Map | undefined;
+	map: any;
 
 	dataService = inject(DataService);
+	serverService = inject(ServerApi);
 
 	@ViewChild('map')
 	private mapContainer!: ElementRef<HTMLElement>;
@@ -79,27 +82,29 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 							}
 						});
 					});
-					
 
-					this.map.on("click", (e) => {
+					const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V';
+					this.map.on('click', (e: any) => {
 						const coords = e.lngLat;
-						console.log(coords.toArray())
-						const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V'
+						console.log(coords.toArray());
 
 						const authentication = ApiKeyManager.fromKey(apiKey);
-	
+
 						reverseGeocode([coords.toArray()[0], coords.toArray()[1]], {
 							authentication
-						  })
-						  .then((result) => {
+						}).then((result) => {
 							console.log(result);
 						});
-	
-					  });
+					});
 
 					const popup = new Popup({ offset: 25 }).setDOMContent(componentRef.location.nativeElement);
 
+					this.displayAllEvents();
+
 					componentRef.changeDetectorRef.detectChanges();
+
+					const gc = new GeocodingControl({ apiKey: '97sou0kVjlk5MxdovBEU' });
+					this.map.addControl(gc, 'top-right');
 
 					this.map?.addControl(new NavigationControl({}), 'top-right');
 					new Marker({ color: '#FF0000' }).setLngLat([longitude, latitude]).setPopup(popup).addTo(this.map);
@@ -115,5 +120,30 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	ngOnDestroy() {
 		this.map?.remove();
+	}
+
+	displayAllEvents(): void {
+		const today: Date = new Date();
+		const year: number = today.getFullYear();
+		const month: number = today.getMonth();
+		const day: number = today.getDate();
+		const date = new Date(year, month, day);
+		this.serverService.getAllEvents(date).subscribe((events) => {
+			console.log(events);
+			events.forEach((element: any) => {
+				console.log(element.type);
+				console.log(element.latitude);
+				console.log(element.longitude);
+				if (element.type === '1') {
+					console.log('intra aici');
+					new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+				} else if (element.type == 2) {
+					new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+				} else if (element.type == 3) {
+					new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+				}
+				console.log(element.name);
+			});
+		});
 	}
 }
