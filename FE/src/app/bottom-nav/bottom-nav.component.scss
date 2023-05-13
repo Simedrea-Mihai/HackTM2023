@@ -7,6 +7,7 @@
   align-items: center;
 }
 .bottomNav>*{
+  padding-bottom: 15px;
   border: none;
   background-color: white;
   width:40px;
@@ -17,4 +18,13 @@
 
 .highlighted-button:hover {
   background-color: gold;
+}
+.aaa{
+  position: relative;
+  transform: scale(1.1);
+  left: 6px;
+}
+.asdfasf {
+  color: #9F54FF;
+
 }

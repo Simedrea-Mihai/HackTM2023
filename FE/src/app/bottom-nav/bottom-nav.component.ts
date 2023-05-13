@@ -39,5 +39,11 @@ export class BottomNavComponent {
 	setBtn(n: number) {
 		console.log(n);
 		this.btnNumber = n;
+
+		if (n == 1) {
+			this.resetFilter();
+		} else if (n == 2) {
+			this.initFilter();
+		}
 	}
 }
