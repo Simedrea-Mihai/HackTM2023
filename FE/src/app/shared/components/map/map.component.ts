@@ -60,6 +60,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	ngDoCheck(): void {
 		this.showAddEventForm = this.renderService.getBooleanShowAddEventForm();
 		this.showAddEvent = this.renderService.getBooleanShowAddEvent();
+
+		if (this.showAddEvent === false && this.newMarker !== undefined) {
+			this.newMarker.remove();
+		}
 	}
 
 	ngAfterViewInit() {
