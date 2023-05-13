@@ -15,7 +15,7 @@ import * as turf from '@turf/turf';
 import { DataService } from 'src/app/services/timisoara-points.service';
 import { ApiKeyManager } from '@esri/arcgis-rest-request';
 import { reverseGeocode } from '@esri/arcgis-rest-geocoding';
-import { GeocodingControl } from "@maptiler/geocoding-control/maplibregl";
+import { GeocodingControl } from '@maptiler/geocoding-control/maplibregl';
 import { ServerApi } from 'src/app/services/server.service';
 
 @Component({
@@ -83,10 +83,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						});
 					});
 
-					const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V'					
+					const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V';
 					this.map.on('click', (e: any) => {
 						const coords = e.lngLat;
-						console.log(coords.toArray())
+						console.log(coords.toArray());
 
 						const authentication = ApiKeyManager.fromKey(apiKey);
 
@@ -102,8 +102,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					this.displayAllEvents();
 
 					componentRef.changeDetectorRef.detectChanges();
-					
-					const gc = new GeocodingControl({apiKey: '97sou0kVjlk5MxdovBEU'});
+
+					const gc = new GeocodingControl({ apiKey: '97sou0kVjlk5MxdovBEU' });
 					this.map.addControl(gc, 'top-right');
 
 					this.map?.addControl(new NavigationControl({}), 'top-right');
@@ -123,7 +123,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	displayAllEvents(): void {
-		this.serverService.getAllEvents().subscribe((events) => {
+		const date = new Date();
+		this.serverService.getAllEvents(date).subscribe((events) => {
 			events.forEach((element: any) => {
 				console.log(element.type);
 				console.log(element.latitude);
