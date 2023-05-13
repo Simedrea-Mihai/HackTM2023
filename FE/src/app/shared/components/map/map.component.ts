@@ -17,6 +17,7 @@ import { ApiKeyManager } from '@esri/arcgis-rest-request';
 import { reverseGeocode } from '@esri/arcgis-rest-geocoding';
 import { GeocodingControl } from '@maptiler/geocoding-control/maplibregl';
 import { ServerApi } from 'src/app/services/server.service';
+import { FilterService } from 'src/app/services/filter.service';
 
 @Component({
 	selector: 'app-map',
@@ -28,6 +29,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	dataService = inject(DataService);
 	serverService = inject(ServerApi);
+	filterService = inject(FilterService);
+
+	markers: Marker[] = [];
 
 	@ViewChild('map')
 	private mapContainer!: ElementRef<HTMLElement>;
@@ -106,19 +110,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					const gc = new GeocodingControl({ apiKey: '97sou0kVjlk5MxdovBEU' });
 					this.map.addControl(gc, 'top-right');
 
-					var geolocate = new maplibregl.GeolocateControl({
-						positionOptions: {
-							enableHighAccuracy: true
-						},
-						trackUserLocation: true
-					});
-					// Add the control to the map.
-					this.map.addControl(geolocate);
-					// Set an event listener that fires
-					// when a geolocate event occurs.
-					geolocate.on('geolocate', function () {
-						console.log('A geolocate event has occurred.');
-					});
+					this.addGeolocationBttton();
 
 					this.map?.addControl(new NavigationControl({}), 'top-right');
 					// new Marker({ color: '#FF0000' }).setLngLat([longitude, latitude]).setPopup(popup).addTo(this.map);
@@ -139,28 +131,46 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	displayAllEvents(): void {
-		const today: Date = new Date();
-		const year: number = today.getFullYear();
-		const month: number = today.getMonth();
-		const day: number = today.getDate();
-		const date = new Date(year, month, day);
-		this.serverService.getAllEvents(date).subscribe((events) => {
-			events.forEach((element: any) => {
-				// console.log(element.type);
-				// console.log(element.latitude);
-				// console.log(element.longitude);
-				if (element.type === '1') {
-					// console.log('intra aici');
-					new maplibregl.Marker({ color: '#fc0000' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
-				} else if (element.type == 2) {
-					new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
-				} else if (element.type == 3) {
-					new maplibregl.Marker({ color: '#308efd' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
-				}
-				// console.log(element.name);
+		this.filterService.getEvent().subscribe((filter) => {
+			if (this.markers.length > 0) {
+				this.markers.forEach((marker: any) => {
+					marker.remove();
+				});
+			}
+
+			console.log(filter);
+			this.serverService.getAllEvents(filter.startDate).subscribe((events) => {
+				events.forEach((element: any) => {
+					if (element.type === '1' && filter.official == true) {
+						const marker = new maplibregl.Marker({ color: '#fc0000' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
+						this.markers.push(marker);
+					} else if (element.type == 2 && filter.unofficial == true) {
+						const marker = new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+						this.markers.push(marker);
+					} else if (element.type == 3) {
+						const marker = new maplibregl.Marker({ color: '#308efd' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
+						this.markers.push(marker);
+					}
+				});
 			});
 		});
 	}
 
 	addCurrentLocationOnMap(): void {}
+
+	addGeolocationBttton(): void {
+		var geolocate = new maplibregl.GeolocateControl({
+			positionOptions: {
+				enableHighAccuracy: true
+			},
+			trackUserLocation: true
+		});
+		// Add the control to the map.
+		this.map.addControl(geolocate);
+		// Set an event listener that fires
+		// when a geolocate event occurs.
+		geolocate.on('geolocate', function () {
+			console.log('A geolocate event has occurred.');
+		});
+	}
 }
