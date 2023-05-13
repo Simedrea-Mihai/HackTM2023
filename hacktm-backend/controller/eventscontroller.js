@@ -1,5 +1,6 @@
 const evrouter = require("express").Router();
 const EventsModel = require("../models/events");
+const calculatedistance = require("../distanceCalculator");
 const EvModel = new EventsModel();
 evrouter.post("/addevent", async (req, res) => {
   try {
@@ -39,13 +40,17 @@ evrouter.post("/eventbydate", async (req, res) => {
     res.status(400).send({ err: "err" });
   }
 });
-evrouter.get("/allevents", async (req, res) => {
+evrouter.post("/allevents", async (req, res) => {
   try {
-    const data = await EvModel.GetAllEvents();
+    const start = req.body.start;
+    const end = req.body.end;
+    const data = await EvModel.GetEventByStartAndEnd(start, end);
+    console.log(data);
     res.status(200).send(data);
   } catch (error) {
     console.log(error);
     res.status(400).send({ err: "error" });
   }
 });
+
 module.exports = { evrouter, EvModel };

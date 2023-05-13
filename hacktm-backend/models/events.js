@@ -34,6 +34,11 @@ class Events {
       $or: [{ startdate: date }, { endate: { $gte: date } }],
     });
   }
+  async GetEventByStartAndEnd(start, end) {
+    return await this.EventsModel.find({
+      $and: [{ startdate: { $gte: start } }, { endate: { $lte: end } }],
+    });
+  }
   async GetAllEvents() {
     return await this.EventsModel.find();
   }
