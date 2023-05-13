@@ -8,10 +8,11 @@ import { MapComponent } from './shared/components/map/map.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { FilterButtonComponent } from './filter-button/filter-button.component';
 import { LegendComponent } from './legend/legend.component';
-
+import { MatIconModule } from '@angular/material/icon';
+import { DrawerEvenimentComponent } from './drawer-eveniment/drawer-eveniment.component';
 @NgModule({
-	declarations: [AppComponent, MapComponent, SearchBarComponent, FilterButtonComponent, LegendComponent],
-	imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule],
+	declarations: [AppComponent, MapComponent, SearchBarComponent, FilterButtonComponent, LegendComponent, DrawerEvenimentComponent],
+	imports: [BrowserModule, MatIconModule, AppRoutingModule, BrowserAnimationsModule],
 	providers: [],
 	bootstrap: [AppComponent]
 })

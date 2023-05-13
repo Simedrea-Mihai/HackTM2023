@@ -1,0 +1,58 @@
+.drawer{
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 20px;
+  border-radius: 16px 16px 0 0 ;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.5);
+  z-index: 5000;
+  position: fixed;
+  bottom: 0;
+}
+.mini{
+  max-height: 3.9em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.line{
+  width: 32px;
+  height: 3px;
+  border-radius: 2px;
+  margin-bottom: 10px;
+  background-color: #666666;
+}
+.eventName{
+  font-weight: 500;
+  font-size: 24px;
+  color: black;
+}
+.date{
+  font-size: 16px;
+  font-weight: 500;
+}
+.nope{
+  display: none;
+}
+.eventType{
+  color: #9F54FF;
+  font-size: 16px;
+}
+.description{
+  font-size: 16px;
+  color: #666666;
+  text-align: center;
+}
+.link{
+  color: #9F54FF;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.btn{
+  padding: 16px 64px;
+  background-color: #9F54FF;
+  color: white;
+  border-radius: 25px;
+  border: none;
+}
