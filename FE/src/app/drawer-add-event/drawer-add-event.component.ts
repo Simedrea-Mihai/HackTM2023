@@ -30,13 +30,13 @@ export class DrawerAddEventComponent implements OnInit {
 		this.formData = {
 			...this.formData,
 			location: this.location,
-			latitude: this.lat,
-			longitude: this.long,
+			longitude: 21.24614318453978,
+			latitude: 45.73944402985734,
 			type: 2,
 			startime: hour < 12 ? hour + ':' + minute + 'AM' : hour - 12 + ':' + minute + 'PM'
 		};
 		console.log(this.formData);
-		this.http.post('https://localhost:5000/addevents', this.formData).subscribe(
+		this.http.post('http://localhost:5000/addevent', this.formData).subscribe(
 			(response) => {
 				console.log(response);
 				// Handle response from the server

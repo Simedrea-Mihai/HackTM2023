@@ -27,6 +27,7 @@
     "@types/geojson": "^7946.0.10",
     "@types/maplibre-gl": "^1.14.0",
     "animate.css": "^4.1.1",
+    "font-awesome": "^4.7.0",
     "maplibre-gl": "^2.4.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

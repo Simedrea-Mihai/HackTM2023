@@ -10,6 +10,7 @@
   z-index: 5000;
   position: fixed;
   bottom: 0;
+  width: 90vw;
 }
 .mini{
   max-height: 3.9em;
@@ -18,8 +19,8 @@
 }
 .line{
   width: 32px;
-  height: 3px;
-  border-radius: 2px;
+  height: 5px;
+  border-radius: 3px;
   margin-bottom: 10px;
   background-color: #666666;
 }
