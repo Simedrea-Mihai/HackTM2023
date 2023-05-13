@@ -107,7 +107,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					this.map.addControl(gc, 'top-right');
 
 					this.map?.addControl(new NavigationControl({}), 'top-right');
-					new Marker({ color: '#FF0000' }).setLngLat([longitude, latitude]).setPopup(popup).addTo(this.map);
+					// new Marker({ color: '#FF0000' }).setLngLat([longitude, latitude]).setPopup(popup).addTo(this.map);
+
+					this.addCurrentLocationOnMap();
 				},
 				(error) => {
 					console.log(`Geolocation error: ${error}`);
@@ -136,14 +138,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 				console.log(element.longitude);
 				if (element.type === '1') {
 					console.log('intra aici');
-					new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+					new maplibregl.Marker({ color: '#fc0000' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
 				} else if (element.type == 2) {
 					new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
 				} else if (element.type == 3) {
-					new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+					new maplibregl.Marker({ color: '#308efd' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
 				}
 				console.log(element.name);
 			});
 		});
 	}
+
+	addCurrentLocationOnMap(): void {}
 }
