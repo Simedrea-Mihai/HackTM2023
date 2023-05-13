@@ -1,9 +1,12 @@
-<div class="drawer animate__animated animate__slideInUp">
-	<div class="line"></div>
-	<p class="eventName">{{ name }}</p>
-	<p class="eventType">{{ type }}</p>
-	<p class="date" [ngClass]="{ nope: isOpen == false }">{{ date }}</p>
-	<p (click)="toggleDrawer()" class="description" [ngClass]="{ mini: isOpen == false }">{{ description }}</p>
-	<a class="link">Link catre eveniment</a>
-	<button class="btn">Adauga la traseu</button>
+<div *ngIf="isComponentInView">
+	<div class="drawer animate__animated animate__slideInUp">
+		<div class="line"></div>
+		<button (click)="close()">eu inchid chestia</button>
+		<p class="eventName">{{ name }}</p>
+		<p class="eventType">{{ type }}</p>
+		<p class="date" [ngClass]="{ nope: isOpen == false }">{{ date }}</p>
+		<p (click)="toggleDrawer()" class="description" [ngClass]="{ mini: isOpen == false }">{{ description }}</p>
+		<a class="link">Link catre eveniment</a>
+		<button class="btn" (click)="test()">Adauga la traseu</button>
+	</div>
 </div>
