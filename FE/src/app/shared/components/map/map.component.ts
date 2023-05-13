@@ -190,49 +190,74 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 			}
 
 			console.log(filter);
-			this.serverService.getAllEvents(filter.startDate, filter.endDate).subscribe((events) => {
-				events.forEach((element: any) => {
-					if (element.type === '1' && filter.official == true) {
-						const marker = new maplibregl.Marker({ color: '#fc0000' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
-						this.markers.push(marker);
-						this.allMarkers.push(element);
-						marker.getElement().addEventListener('click', () => {
-							const data = this.getClosestMarker(this.allMarkers, element);
-							this.name = data.name;
-							this.type = data.type;
-							this.description = data.description;
-							this.link = data.link;
-							this.date = data.date;
+			if (filter.startDate) {
+				this.serverService.getAllEvents(filter.startDate, filter.endDate).subscribe((events) => {
+					events.forEach((element: any) => {
+						if (element.type === '1' && filter.official == true) {
+							const marker = new maplibregl.Marker({ color: '#fc0000' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
+							this.markers.push(marker);
+							this.allMarkers.push(element);
+							marker.getElement().addEventListener('click', () => {
+								const data = this.getClosestMarker(this.allMarkers, element);
+								this.name = data.name;
+								this.type = data.type;
+								this.description = data.description;
+								this.link = data.link;
+								this.date = data.date;
 
-							if (!this.showAddEvent) {
-								this.isMarkerClicked = true;
-								this.renderService.setBoolean(this.isMarkerClicked);
-							}
-						});
-					} else if (element.type == 2 && filter.unofficial == true) {
-						const marker = new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
-						this.allMarkers.push(element);
-						this.markers.push(marker);
+								if (!this.showAddEvent) {
+									this.isMarkerClicked = true;
+									this.renderService.setBoolean(this.isMarkerClicked);
+								}
+							});
+						} else if (element.type == 2 && filter.unofficial == true) {
+							const marker = new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+							this.allMarkers.push(element);
+							this.markers.push(marker);
 
-						marker.getElement().addEventListener('click', () => {
-							const data = this.getClosestMarker(this.allMarkers, element);
-							this.name = data.name;
-							this.type = data.type;
-							this.description = data.description;
-							this.link = data.link;
-							this.date = data.date;
+							marker.getElement().addEventListener('click', () => {
+								const data = this.getClosestMarker(this.allMarkers, element);
+								this.name = data.name;
+								this.type = data.type;
+								this.description = data.description;
+								this.link = data.link;
+								this.date = data.date;
 
-							if (!this.showAddEvent) {
-								this.isMarkerClicked = true;
-								this.renderService.setBoolean(this.isMarkerClicked);
-							}
-						});
-					} else if (element.type == 3) {
-						const marker = new maplibregl.Marker({ color: '#308efd' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
-						this.markers.push(marker);
-					}
+								if (!this.showAddEvent) {
+									this.isMarkerClicked = true;
+									this.renderService.setBoolean(this.isMarkerClicked);
+								}
+							});
+						} else if (element.type == 3) {
+							const marker = new maplibregl.Marker({ color: '#308efd' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
+							this.markers.push(marker);
+						}
+					});
 				});
-			});
+			} else {
+				this.serverService.getAllMonuments().subscribe((monuments) => {
+					monuments.forEach((element: any) => {
+						const marker = new maplibregl.Marker({color: '#808080', scale: 0.8}).setLngLat([element.longitude, element.latitude]).addTo(this.map);
+							this.allMarkers.push(element);
+							this.markers.push(marker);
+
+							marker.getElement().addEventListener('click', () => {
+								const data = this.getClosestMarker(this.allMarkers, element);
+								this.name = data.name;
+								this.type = data.type;
+								this.description = data.description;
+								this.link = data.link;
+								this.date = data.date;
+
+								if (!this.showAddEvent) {
+									this.isMarkerClicked = true;
+									this.renderService.setBoolean(this.isMarkerClicked);
+								}
+							});
+				});
+					});
+					
+			}
 		});
 	}
 
