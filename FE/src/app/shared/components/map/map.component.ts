@@ -11,6 +11,9 @@ import {
 import { Map, NavigationControl, Marker, Popup } from 'maplibre-gl';
 import { MapDetailsComponent } from '../map-details/map-details.component';
 import * as turf from '@turf/turf';
+import { ApiKeyManager } from '@esri/arcgis-rest-request';
+import { reverseGeocode } from '@esri/arcgis-rest-geocoding';
+
 @Component({
 	selector: 'app-map',
 	templateUrl: './map.component.html',
@@ -124,6 +127,23 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 							}
 						});
 					});
+					
+
+					this.map.on("click", (e) => {
+						const coords = e.lngLat;
+						console.log(coords.toArray())
+						const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V'
+
+						const authentication = ApiKeyManager.fromKey(apiKey);
+	
+						reverseGeocode([coords.toArray()[0], coords.toArray()[1]], {
+							authentication
+						  })
+						  .then((result) => {
+							console.log(result);
+						});
+	
+					  });
 
 					const popup = new Popup({ offset: 25 }).setDOMContent(componentRef.location.nativeElement);
 
