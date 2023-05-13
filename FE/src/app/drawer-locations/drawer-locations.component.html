@@ -1,6 +1,6 @@
 <div class="drawer animate__animated animate__slideInUp animate__fadeOut">
-	<div class="line"></div>
+	<div class="line" (click)="close()"></div>
 	<p>{{ location }}</p>
 	<button class="btn">Adauga la traseu</button>
-	<a class="link">Adauga un eveniment</a>
+	<button class="btn" (click)="showEventForm()">Adauga un eveniment</button>
 </div>

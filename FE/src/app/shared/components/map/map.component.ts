@@ -47,6 +47,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	lon = '';
 
 	showAddEvent = false;
+	showAddEventForm = false;
+	newMarker: Marker | undefined;
 
 	@ViewChild('map')
 	private mapContainer!: ElementRef<HTMLElement>;
@@ -54,6 +56,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	constructor(private cfr: ComponentFactoryResolver, private vcr: ViewContainerRef, private renderService: RenderService) {}
 
 	ngOnInit(): void {}
+
+	ngDoCheck(): void {
+		this.showAddEventForm = this.renderService.getBooleanShowAddEventForm();
+		this.showAddEvent = this.renderService.getBooleanShowAddEvent();
+	}
 
 	ngAfterViewInit() {
 		const componentFactory = this.cfr.resolveComponentFactory(DrawerEvenimentComponent);
@@ -104,14 +111,28 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
 					const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V';
 					this.map.on('click', (e: any) => {
-						//this.showAddEvent = true;
 						const coords = e.lngLat;
 						const authentication = ApiKeyManager.fromKey(apiKey);
+						
+						if (this.renderService.getBoolean() === false) {
+							this.showAddEvent = true;
+							this.renderService.setBooleanShowAddEvent(true);
+							console.log(e);
+
+							if (this.newMarker !== undefined) {
+								this.newMarker.remove();
+							}
+
+							// this.location = 
+							this.newMarker = new Marker({ color: '#A020F0' }).setLngLat([coords.toArray()[0], coords.toArray()[1]]).addTo(this.map);
+							this.lat = coords.toArray()[1].toString();
+							this.lon = coords.toArray()[0].toString();
+						}
 
 						reverseGeocode([coords.toArray()[0], coords.toArray()[1]], {
 							authentication
 						}).then((result) => {
-							console.log(result);
+							this.location = result.address['Address'];
 						});
 					});
 
@@ -138,9 +159,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					this.map?.addControl(new NavigationControl({}), 'bottom-left');
 
 					this.displayAllEvents();
-
-					this.lat = latitude.toString();
-					this.lon = longitude.toString();
 
 					// new Marker({ color: '#FF0000' }).setLngLat([longitude, latitude]).addTo(this.map);
 
@@ -182,8 +200,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 							this.link = data.link;
 							this.date = data.date;
 
-							this.isMarkerClicked = true;
-							this.renderService.setBoolean(this.isMarkerClicked);
+							if (!this.showAddEvent) {
+								this.isMarkerClicked = true;
+								this.renderService.setBoolean(this.isMarkerClicked);
+							}
 						});
 					} else if (element.type == 2 && filter.unofficial == true) {
 						const marker = new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
@@ -198,8 +218,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 							this.link = data.link;
 							this.date = data.date;
 
-							this.isMarkerClicked = true;
-							this.renderService.setBoolean(this.isMarkerClicked);
+							if (!this.showAddEvent) {
+								this.isMarkerClicked = true;
+								this.renderService.setBoolean(this.isMarkerClicked);
+							}
 						});
 					} else if (element.type == 3) {
 						const marker = new maplibregl.Marker({ color: '#308efd' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);

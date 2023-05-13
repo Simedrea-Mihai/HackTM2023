@@ -1,12 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { RenderService } from '../services/render.service';
 @Component({
 	selector: 'app-drawer-add-event',
 	templateUrl: './drawer-add-event.component.html',
 	styleUrls: ['./drawer-add-event.component.scss']
 })
 export class DrawerAddEventComponent implements OnInit {
+
 	@Input() location = '';
 	@Input() lat = '';
 	@Input() long = '';
@@ -19,10 +21,16 @@ export class DrawerAddEventComponent implements OnInit {
 		link: new FormControl('')
 	});
 	formData: any;
+	isComponentInView = false;
 
-	constructor(private http: HttpClient) {}
+	constructor(private http: HttpClient, private readonly service: RenderService) {}
 
 	ngOnInit() {}
+
+	close(): void {
+		this.isComponentInView = false;
+		this.service.setBooleanShowAddEventForm(this.isComponentInView);
+	}
 
 	onSubmit(): void {
 		this.formData = this.eventForm.value;
@@ -30,8 +38,8 @@ export class DrawerAddEventComponent implements OnInit {
 		this.formData = {
 			...this.formData,
 			location: this.location,
-			longitude: 21.24614318453978,
-			latitude: 45.73944402985734,
+			longitude: this.long,
+			latitude: this.lat,
 			type: 2,
 			startime: hour < 12 ? hour + ':' + minute + 'AM' : hour - 12 + ':' + minute + 'PM'
 		};
@@ -44,6 +52,10 @@ export class DrawerAddEventComponent implements OnInit {
 			(error) => {
 				console.error(error);
 				// Handle error from the server
+			},
+			() => {
+				this.service.setBoolean(false);
+				this.service.setBooleanShowAddEventForm(false);
 			}
 		);
 	}
