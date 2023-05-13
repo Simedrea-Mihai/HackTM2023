@@ -9,7 +9,7 @@ import {
 	ViewContainerRef,
 	inject
 } from '@angular/core';
-import { Map, NavigationControl, Marker, Popup } from 'maplibre-gl';
+import maplibregl, { Map, NavigationControl, Marker, Popup } from 'maplibre-gl';
 import { MapDetailsComponent } from '../map-details/map-details.component';
 import * as turf from '@turf/turf';
 import { DataService } from 'src/app/services/timisoara-points.service';
@@ -23,7 +23,7 @@ import { ServerApi } from 'src/app/services/server.service';
 	styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
-	map: Map | undefined;
+	map: any;
 
 	dataService = inject(DataService);
 	serverService = inject(ServerApi);
@@ -82,7 +82,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						});
 					});
 
-					this.map.on('click', (e) => {
+					this.map.on('click', (e: any) => {
 						const coords = e.lngLat;
 						console.log(coords.toArray());
 						const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V';
@@ -121,7 +121,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	displayAllEvents(): void {
 		const date = new Date();
 		const type = 1;
-		this.serverService.getEvents(type, date).subscribe((events) => {
+		this.serverService.getAllEvents(type, date).subscribe((events) => {
 			console.log(events);
 		});
 	}

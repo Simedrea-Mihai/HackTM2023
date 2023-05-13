@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -8,9 +8,12 @@ import { Observable } from 'rxjs';
 export class ServerApi {
 	constructor(private http: HttpClient) {}
 
-	getEvents(type: number, date: Date): Observable<any> {
-		const url = 'http://localhost:5000/eventype';
+	getAllEvents(type: number, date: Date): Observable<any> {
+		const url = 'http://localhost:5000/allevents';
+
+		const headers = new HttpHeaders().set('Content-Type', 'application/json');
 		const body = { type: type, date: date };
-		return this.http.post(url, body);
+
+		return this.http.get(url);
 	}
 }
