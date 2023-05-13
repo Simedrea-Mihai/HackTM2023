@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { ShowLegendService } from './services/legen.service';
 declare var navigator: Navigator;
 
 @Component({
@@ -6,7 +7,16 @@ declare var navigator: Navigator;
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+	showLegend = false;
+	legendService = inject(ShowLegendService);
+
+	ngOnInit(): void {
+		this.legendService.getEvent().subscribe((response) => {
+			this.showLegend = response;
+		});
+	}
+
 	title = 'FE';
 
 	name = 'Nume eveniment';

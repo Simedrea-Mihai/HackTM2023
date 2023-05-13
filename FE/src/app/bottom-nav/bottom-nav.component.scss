@@ -1,0 +1,17 @@
+.bottomNav{
+  width: 100vw;
+  background-color: white;
+  height: 80px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.bottomNav>*{
+  border: none;
+  background-color: white;
+  width:50px
+}
+
+.highlighted-button:hover {
+  background-color: gold;    /* Change the background color on hover */
+}

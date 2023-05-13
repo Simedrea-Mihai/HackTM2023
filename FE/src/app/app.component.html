@@ -1,8 +1,10 @@
 <div class="App">
 	<app-map></app-map>
-	<app-filter-button></app-filter-button>
-	<app-legend></app-legend>
+	<app-filter-button *ngIf="showLegend"></app-filter-button>
+	<app-legend *ngIf="showLegend"></app-legend>
 	<!-- <app-drawer-filter></app-drawer-filter> -->
 	<!-- <app-drawer-locations [location]="location"></app-drawer-locations> -->
 	<!-- <app-drawer-add-event [location]="location"></app-drawer-add-event> -->
+
+	<app-bottom-nav></app-bottom-nav>
 </div>
