@@ -10,13 +10,14 @@ import {
 	inject
 } from '@angular/core';
 import maplibregl, { Map, NavigationControl, Marker, Popup } from 'maplibre-gl';
-import { MapDetailsComponent } from '../map-details/map-details.component';
 import * as turf from '@turf/turf';
 import { DataService } from 'src/app/services/timisoara-points.service';
 import { ApiKeyManager } from '@esri/arcgis-rest-request';
 import { reverseGeocode } from '@esri/arcgis-rest-geocoding';
-import { GeocodingControl } from "@maptiler/geocoding-control/maplibregl";
+import { GeocodingControl } from '@maptiler/geocoding-control/maplibregl';
 import { ServerApi } from 'src/app/services/server.service';
+import { DrawerEvenimentComponent } from 'src/app/drawer-eveniment/drawer-eveniment.component';
+import { RenderService } from 'src/app/services/render.service';
 
 @Component({
 	selector: 'app-map',
@@ -25,19 +26,27 @@ import { ServerApi } from 'src/app/services/server.service';
 })
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	map: any;
+	allMarkers: any[] = [];
+	isMarkerClicked = false;
 
 	dataService = inject(DataService);
 	serverService = inject(ServerApi);
 
+	name: string = '';
+	type: string = '';
+	description: string = '';
+	link: string = '';
+	date: string = '';
+
 	@ViewChild('map')
 	private mapContainer!: ElementRef<HTMLElement>;
 
-	constructor(private cfr: ComponentFactoryResolver, private vcr: ViewContainerRef) {}
+	constructor(private cfr: ComponentFactoryResolver, private vcr: ViewContainerRef, private renderService: RenderService) {}
 
 	ngOnInit(): void {}
 
 	ngAfterViewInit() {
-		const componentFactory = this.cfr.resolveComponentFactory(MapDetailsComponent);
+		const componentFactory = this.cfr.resolveComponentFactory(DrawerEvenimentComponent);
 		const componentRef = componentFactory.create(this.vcr.injector);
 
 		if (navigator.geolocation) {
@@ -83,11 +92,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						});
 					});
 
-					const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V'					
+					const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V';
 					this.map.on('click', (e: any) => {
 						const coords = e.lngLat;
-						console.log(coords.toArray())
-
 						const authentication = ApiKeyManager.fromKey(apiKey);
 
 						reverseGeocode([coords.toArray()[0], coords.toArray()[1]], {
@@ -97,17 +104,33 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						});
 					});
 
-					const popup = new Popup({ offset: 25 }).setDOMContent(componentRef.location.nativeElement);
+					componentRef.changeDetectorRef.detectChanges();
+
+					const gc = new GeocodingControl({ apiKey: '97sou0kVjlk5MxdovBEU' });
+					this.map.addControl(gc, 'top-right');
+
+					var geolocate = new maplibregl.GeolocateControl({
+						positionOptions: {
+							enableHighAccuracy: true
+						},
+						trackUserLocation: true
+					});
+					// Add the control to the map.
+					this.map.addControl(geolocate);
+					// Set an event listener that fires
+					// when a geolocate event occurs.
+					geolocate.on('geolocate', function () {
+						console.log('A geolocate event has occurred.');
+					});
+
+					this.map?.addControl(new NavigationControl({}), 'top-right');
 
 					this.displayAllEvents();
 
-					componentRef.changeDetectorRef.detectChanges();
-					
-					const gc = new GeocodingControl({apiKey: '97sou0kVjlk5MxdovBEU'});
-					this.map.addControl(gc, 'top-right');
+					// new Marker({ color: '#FF0000' }).setLngLat([longitude, latitude]).addTo(this.map);
 
-					this.map?.addControl(new NavigationControl({}), 'top-right');
-					new Marker({ color: '#FF0000' }).setLngLat([longitude, latitude]).setPopup(popup).addTo(this.map);
+
+					this.addCurrentLocationOnMap();
 				},
 				(error) => {
 					console.log(`Geolocation error: ${error}`);
@@ -123,21 +146,67 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	displayAllEvents(): void {
-		this.serverService.getAllEvents().subscribe((events) => {
+		const today: Date = new Date();
+		const year: number = today.getFullYear();
+		const month: number = today.getMonth();
+		const day: number = today.getDate();
+		const date = new Date(year, month, day);
+		this.serverService.getAllEvents(date).subscribe((events) => {
 			events.forEach((element: any) => {
-				console.log(element.type);
-				console.log(element.latitude);
-				console.log(element.longitude);
 				if (element.type === '1') {
-					console.log('intra aici');
-					new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
-				} else if (element.type == 2) {
-					new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+					let marker = new maplibregl.Marker({ color: '#fc0000' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
+					this.allMarkers.push(element);
+					marker.getElement().addEventListener('click', () => {
+						
+						const data = this.getClosestMarker(this.allMarkers, element);
+						this.name = data.name;
+						this.type = data.type;
+						this.description = data.description;
+						this.link = data.link;
+						this.date = data.date;
+
+						this.isMarkerClicked = true;
+						this.renderService.setBoolean(this.isMarkerClicked);
+					});
+				} else if (element.type === '2') {
+					let marker = new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+					this.allMarkers.push(element);
+					marker.getElement().addEventListener('click', () => {
+						
+						const data = this.getClosestMarker(this.allMarkers, element);
+						this.name = data.name;
+						this.type = data.type;
+						this.description = data.description;
+						this.link = data.link;
+						this.date = data.date;
+
+						this.isMarkerClicked = true;
+						this.renderService.setBoolean(this.isMarkerClicked);
+					});
 				} else if (element.type == 3) {
-					new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+					new maplibregl.Marker({ color: '#308efd' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
 				}
-				console.log(element.name);
 			});
 		});
 	}
+
+	addCurrentLocationOnMap(): void {}
+
+	getClosestMarker(markers: any, pressed: any): any {
+		const R = 6371e3;
+		const distances = markers.map((marker: any) => {
+		  const lat1 = pressed.latitude * Math.PI / 180;
+		  const lat2 = marker.latitude * Math.PI / 180;
+		  const dLat = (marker.latitude - pressed.latitude) * Math.PI / 180;
+		  const dLon = (marker.longitude - pressed.longitude) * Math.PI / 180;
+		  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+			Math.cos(lat1) * Math.cos(lat2) *
+			Math.sin(dLon / 2) * Math.sin(dLon / 2);
+		  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		  const d = R * c;
+		  return { ...marker, distance: d };
+		});
+		distances.sort((a: any, b: any) => a.distance - b.distance);
+		return distances[0];
+	  }
 }

@@ -10,11 +10,10 @@
   z-index: 5000;
   position: fixed;
   bottom: 0;
+  width: 90vw;
 }
-.mini{
-  max-height: 3.9em;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.range{
+  width: 80vw;
 }
 .line{
   width: 32px;
@@ -23,31 +22,17 @@
   margin-bottom: 10px;
   background-color: #666666;
 }
-.eventName{
-  font-weight: 500;
-  font-size: 24px;
-  color: black;
-}
-.date{
-  font-size: 16px;
+.label{
   font-weight: 500;
 }
-.nope{
-  display: none;
+form > div{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
-.eventType{
-  color: #9F54FF;
-  font-size: 16px;
-}
-.description{
-  font-size: 16px;
-  color: #666666;
-  text-align: center;
-}
-.link{
-  color: #9F54FF;
-  font-size: 16px;
-  margin-bottom: 10px;
+form > div > input{
+  position: relative;
+  bottom: 8px;
 }
 .btn{
   padding: 16px 64px;
@@ -56,4 +41,14 @@
   border-radius: 25px;
   border: none;
   font-weight: 600;
+  margin-top: 15px;
+}
+.input{
+  border: 1px solid rgb(188, 188, 188);
+  border-radius: 10px;
+  width: 80vw;
+  height: 30px;
+  background-color: #f6f6f6;
+  padding: 5px;
+  padding-left: 10px;
 }
