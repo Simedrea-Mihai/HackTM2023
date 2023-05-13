@@ -116,19 +116,18 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						trackUserLocation: true
 					});
 					// Add the control to the map.
-					this.map.addControl(geolocate);
+					this.map.addControl(geolocate, 'bottom-left');
 					// Set an event listener that fires
 					// when a geolocate event occurs.
 					geolocate.on('geolocate', function () {
 						console.log('A geolocate event has occurred.');
 					});
 
-					this.map?.addControl(new NavigationControl({}), 'top-right');
+					this.map?.addControl(new NavigationControl({}), 'bottom-left');
 
 					this.displayAllEvents();
 
 					// new Marker({ color: '#FF0000' }).setLngLat([longitude, latitude]).addTo(this.map);
-
 
 					this.addCurrentLocationOnMap();
 				},
@@ -157,7 +156,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					let marker = new maplibregl.Marker({ color: '#fc0000' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
 					this.allMarkers.push(element);
 					marker.getElement().addEventListener('click', () => {
-						
 						const data = this.getClosestMarker(this.allMarkers, element);
 						this.name = data.name;
 						this.type = data.type;
@@ -182,18 +180,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	getClosestMarker(markers: any, pressed: any): any {
 		const R = 6371e3;
 		const distances = markers.map((marker: any) => {
-		  const lat1 = pressed.latitude * Math.PI / 180;
-		  const lat2 = marker.latitude * Math.PI / 180;
-		  const dLat = (marker.latitude - pressed.latitude) * Math.PI / 180;
-		  const dLon = (marker.longitude - pressed.longitude) * Math.PI / 180;
-		  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-			Math.cos(lat1) * Math.cos(lat2) *
-			Math.sin(dLon / 2) * Math.sin(dLon / 2);
-		  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-		  const d = R * c;
-		  return { ...marker, distance: d };
+			const lat1 = (pressed.latitude * Math.PI) / 180;
+			const lat2 = (marker.latitude * Math.PI) / 180;
+			const dLat = ((marker.latitude - pressed.latitude) * Math.PI) / 180;
+			const dLon = ((marker.longitude - pressed.longitude) * Math.PI) / 180;
+			const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+			const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+			const d = R * c;
+			return { ...marker, distance: d };
 		});
 		distances.sort((a: any, b: any) => a.distance - b.distance);
 		return distances[0];
-	  }
+	}
 }
