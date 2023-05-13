@@ -145,7 +145,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 			}
 
 			console.log(filter);
-			this.serverService.getAllEvents(filter.startDate).subscribe((events) => {
+			this.serverService.getAllEvents(filter.startDate, filter.endDate).subscribe((events) => {
 				events.forEach((element: any) => {
 					if (element.type === '1' && filter.official == true) {
 						const marker = new maplibregl.Marker({ color: '#fc0000' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);

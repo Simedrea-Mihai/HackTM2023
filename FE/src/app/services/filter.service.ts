@@ -14,8 +14,8 @@ export class FilterService {
 	private eventSubject = new BehaviorSubject<Filter>({
 		official: true,
 		unofficial: true,
-		startDate: this.datePipe.transform(this.currentDate, 'dd-MMM-YYYY'),
-		endDate: this.datePipe.transform(this.currentDate, 'dd-MMM-YYYY')
+		startDate: this.datePipe.transform(this.currentDate, 'yyyy-MM-dd'),
+		endDate: this.datePipe.transform(this.currentDate, 'yyyy-MM-dd')
 	});
 
 	emitEvent(eventName: Filter) {
