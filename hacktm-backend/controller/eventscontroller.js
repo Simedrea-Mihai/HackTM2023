@@ -39,4 +39,13 @@ evrouter.get("/eventbydate", async (req, res) => {
     res.status(400).send({ err: "err" });
   }
 });
+evrouter.get("/allevents", async (req, res) => {
+  try {
+    const data = await EvModel.GetAllEvents();
+    res.status(200).send(data);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({ err: "error" });
+  }
+});
 module.exports = { evrouter, EvModel };
