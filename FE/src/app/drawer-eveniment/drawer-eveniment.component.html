@@ -5,7 +5,9 @@
 		<p class="eventName">{{ name }}</p>
 		<p class="eventType">{{ type }}</p>
 		<p class="date" [ngClass]="{ nope: isOpen == false }">{{ date }}</p>
-		<p (click)="toggleDrawer()" class="description" [ngClass]="{ mini: isOpen == false }">{{ description }}</p>
+		<p (click)="toggleDrawer()" class="description" [ngClass]="{ mini: isOpen == false }">
+		{{ description }}
+	</p>
 		<a class="link">Link catre eveniment</a>
 		<button class="btn" (click)="test()">Adauga la traseu</button>
 	</div>

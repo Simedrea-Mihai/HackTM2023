@@ -1,0 +1,19 @@
+<div class="drawer animate__animated animate__slideInUp">
+	<div class="line"></div>
+	<form [formGroup]="filterForm">
+		<p class="label">Afiseaza evenimentele:</p>
+		<div>
+			<input type="checkbox" formControlName="official" />
+			<p>Official</p>
+		</div>
+		<div>
+			<input type="checkbox" formControlName="unofficial" />
+			<p>Unofficial</p>
+		</div>
+		<p>Data de incepere:</p>
+		<input formControlName="startdate" type="date" class="input" />
+		<p>Data de incheiere:</p>
+		<input formControlName="endate" type="date" class="input" />
+	</form>
+	<button class="btn">Filter results</button>
+</div>

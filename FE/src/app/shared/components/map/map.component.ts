@@ -15,6 +15,7 @@ import { DataService } from 'src/app/services/timisoara-points.service';
 import { ApiKeyManager } from '@esri/arcgis-rest-request';
 import { reverseGeocode } from '@esri/arcgis-rest-geocoding';
 import { GeocodingControl } from '@maptiler/geocoding-control/maplibregl';
+import { GeocodingControl } from '@maptiler/geocoding-control/maplibregl';
 import { ServerApi } from 'src/app/services/server.service';
 import { DrawerEvenimentComponent } from 'src/app/drawer-eveniment/drawer-eveniment.component';
 import { RenderService } from 'src/app/services/render.service';
@@ -88,7 +89,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V';
 					this.map.on('click', (e: any) => {
 						const coords = e.lngLat;
-						console.log(coords.toArray());
+						console.log(coords.toArray());;
 						const authentication = ApiKeyManager.fromKey(apiKey);
 
 						reverseGeocode([coords.toArray()[0], coords.toArray()[1]], {
@@ -103,12 +104,28 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					const gc = new GeocodingControl({ apiKey: '97sou0kVjlk5MxdovBEU' });
 					this.map.addControl(gc, 'top-right');
 
+					var geolocate = new maplibregl.GeolocateControl({
+						positionOptions: {
+							enableHighAccuracy: true
+						},
+						trackUserLocation: true
+					});
+					// Add the control to the map.
+					this.map.addControl(geolocate);
+					// Set an event listener that fires
+					// when a geolocate event occurs.
+					geolocate.on('geolocate', function () {
+						console.log('A geolocate event has occurred.');
+					});
+
 					this.map?.addControl(new NavigationControl({}), 'top-right');
 
 					this.displayAllEvents();
 
-					new Marker({ color: '#FF0000' }).setLngLat([longitude, latitude]).addTo(this.map);
+					// new Marker({ color: '#FF0000' }).setLngLat([longitude, latitude]).addTo(this.map);
 
+
+					this.addCurrentLocationOnMap();
 				},
 				(error) => {
 					console.log(`Geolocation error: ${error}`);
@@ -124,10 +141,15 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	displayAllEvents(): void {
-		this.serverService.getAllEvents().subscribe((events) => {
+		const today: Date = new Date();
+		const year: number = today.getFullYear();
+		const month: number = today.getMonth();
+		const day: number = today.getDate();
+		const date = new Date(year, month, day);
+		this.serverService.getAllEvents(date).subscribe((events) => {
 			events.forEach((element: any) => {
 				if (element.type === '1') {
-					const marker = new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+					// const marker = new maplibregl.Marker({ color: '#fc0000' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
 					marker.getElement().addEventListener('click', () => {
 						this.isMarkerClicked = true;
 						this.renderService.setBoolean(this.isMarkerClicked);
@@ -135,9 +157,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 				} else if (element.type == 2) {
 					new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
 				} else if (element.type == 3) {
-					new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+					new maplibregl.Marker({ color: '#308efd' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
 				}
 			});
 		});
 	}
+
+	addCurrentLocationOnMap(): void {}
 }

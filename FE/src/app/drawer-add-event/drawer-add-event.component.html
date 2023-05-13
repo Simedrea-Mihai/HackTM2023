@@ -1,0 +1,19 @@
+<div class="drawer animate__animated animate__slideInUp">
+	<div class="line"></div>
+	<p>{{ location }}</p>
+	<form [formGroup]="eventForm">
+		<p>Nume eveniment:</p>
+		<input formControlName="name" type="text" />
+		<p>Descriere eveniment:</p>
+		<textarea formControlName="description" class="description"></textarea>
+		<p>Data de incepere:</p>
+		<input formControlName="startdate" type="date" />
+		<p>Data de incheiere:</p>
+		<input formControlName="endate" type="date" />
+		<p>Ora la care incepe evenimentul:</p>
+		<input formControlName="startime" type="time" />
+		<p>Link catre pagina evenimentului:</p>
+		<input formControlName="link" type="text" />
+	</form>
+	<button class="btn" (click)="onSubmit()">Adauga eveniment</button>
+</div>

@@ -15,4 +15,6 @@ export class AppComponent {
 		'Scurta descriere a evenimentului in caz ca e mai lunga de 3 randuri care incap in casuta asta o sa fie completate cu Scurta descriere a evenimentului in caz ca e mai lunga de 3 randuri care incap in casuta asta o sa fie completate cu Scurta descriere a evenimentului in caz ca e mai lunga de 3 randuri care incap in casuta asta o sa fie completate cu Scurta descriere a evenimentului in caz ca e mai lunga de 3 randuri care incap in casuta asta o sa fie completate cu Scurta descriere a evenimentului in caz ca e mai lunga de 3 randuri care incap in casuta asta o sa fie completate cu  descriere a evenimentului in caz ca e mai lunga de 3 randuri care incap in ';
 	link = 'https:  //angular.io/guide/component-interaction';
 	date = '22 - 01 - 2023';
+
+	location = 'Bulevardul Vasile Pârvan 4, Timișoara 300223';
 }
