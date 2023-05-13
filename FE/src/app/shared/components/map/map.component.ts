@@ -113,9 +113,22 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					const gc = new GeocodingControl({ apiKey: '97sou0kVjlk5MxdovBEU' });
 					this.map.addControl(gc, 'top-right');
 
+					var geolocate = new maplibregl.GeolocateControl({
+						positionOptions: {
+							enableHighAccuracy: true
+						},
+						trackUserLocation: true
+					});
+					// Add the control to the map.
+					this.map.addControl(geolocate, 'bottom-left');
+					// Set an event listener that fires
+					// when a geolocate event occurs.
+					geolocate.on('geolocate', function () {
+						console.log('A geolocate event has occurred.');
+					});
 					this.addGeolocationBttton();
 
-					this.map?.addControl(new NavigationControl({}), 'top-right');
+					this.map?.addControl(new NavigationControl({}), 'bottom-left');
 
 					this.displayAllEvents();
 

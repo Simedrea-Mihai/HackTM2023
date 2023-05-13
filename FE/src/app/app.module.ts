@@ -13,6 +13,8 @@ import { DrawerFilterComponent } from './drawer-filter/drawer-filter.component';
 import { DrawerLocationsComponent } from './drawer-locations/drawer-locations.component';
 import { DrawerAddEventComponent } from './drawer-add-event/drawer-add-event.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BottomNavComponent } from './bottom-nav/bottom-nav.component';
+
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -22,7 +24,8 @@ import { HttpClientModule } from '@angular/common/http';
 		DrawerEvenimentComponent,
 		DrawerFilterComponent,
 		DrawerLocationsComponent,
-		DrawerAddEventComponent
+		DrawerAddEventComponent,
+		BottomNavComponent
 	],
 	imports: [
 		HttpClientModule,
