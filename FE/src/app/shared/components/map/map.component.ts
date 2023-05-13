@@ -123,8 +123,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	displayAllEvents(): void {
-		const date = new Date();
+		const today: Date = new Date();
+		const year: number = today.getFullYear();
+		const month: number = today.getMonth();
+		const day: number = today.getDate();
+		const date = new Date(year, month, day);
 		this.serverService.getAllEvents(date).subscribe((events) => {
+			console.log(events);
 			events.forEach((element: any) => {
 				console.log(element.type);
 				console.log(element.latitude);
