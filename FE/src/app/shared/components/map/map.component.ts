@@ -24,8 +24,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	constructor(private cfr: ComponentFactoryResolver, private vcr: ViewContainerRef) {}
 
-	// ...
-
 	ngOnInit(): void {}
 
 	ngAfterViewInit() {
@@ -70,9 +68,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						[-67.13734351262877, 45.137451890638886]
 					];
 
-					var polygon = turf.polygon([dataPoints]);
-					
-					var masked = turf.mask(polygon);
+					const polygon = turf.polygon([dataPoints]);
+					const masked = turf.mask(polygon);
 
 					this.map.on('load', () => {
 						this.map?.addSource('maine', {
@@ -98,24 +95,19 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						});
 					});
 
-					var popup = new Popup({ offset: 25 }).setDOMContent(componentRef.location.nativeElement);
+					const popup = new Popup({ offset: 25 }).setDOMContent(componentRef.location.nativeElement);
 
 					componentRef.changeDetectorRef.detectChanges();
 
 					this.map?.addControl(new NavigationControl({}), 'top-right');
-					new Marker({ color: '#FF0000' })
-						.setLngLat([longitude, latitude])
-						.setPopup(popup) // add popups
-						.addTo(this.map);
+					new Marker({ color: '#FF0000' }).setLngLat([longitude, latitude]).setPopup(popup).addTo(this.map);
 				},
 				(error) => {
 					console.log(`Geolocation error: ${error}`);
-					// Handle error case
 				}
 			);
 		} else {
 			console.log('Geolocation is not supported by this browser.');
-			// Handle unsupported case
 		}
 	}
 
