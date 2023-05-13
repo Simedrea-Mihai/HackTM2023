@@ -33,7 +33,7 @@ export class DrawerFilterComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.filterForm.valueChanges.subscribe((value) => {
-			// this.onSubmit();
+			this.onSubmit();
 		});
 	}
 

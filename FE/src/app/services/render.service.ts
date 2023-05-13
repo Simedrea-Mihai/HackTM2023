@@ -5,8 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class RenderService {
 	private isBoolean: boolean = false;
-    private showAddEventForm: boolean = false;
-    private showAddEvent: boolean = false;
+	private showAddEventForm: boolean = false;
+	private showAddEvent: boolean = false;
     private showFilter: boolean = false;
 
 	constructor() {}
@@ -19,21 +19,21 @@ export class RenderService {
 		return this.isBoolean;
 	}
 
-    getBooleanShowAddEventForm(): boolean {
-        return this.showAddEventForm;
-    }
+	getBooleanShowAddEventForm(): boolean {
+		return this.showAddEventForm;
+	}
 
-    setBooleanShowAddEventForm(value: boolean) {
-        this.showAddEventForm = value;
-    }
+	setBooleanShowAddEventForm(value: boolean) {
+		this.showAddEventForm = value;
+	}
 
-    getBooleanShowAddEvent() {
-        return this.showAddEvent;
-    }
+	getBooleanShowAddEvent() {
+		return this.showAddEvent;
+	}
 
-    setBooleanShowAddEvent(value: boolean) {
-        this.showAddEvent = value;
-    }
+	setBooleanShowAddEvent(value: boolean) {
+		this.showAddEvent = value;
+	}
 
     getBooleanShowFilter() {
         return this.showFilter;
