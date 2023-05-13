@@ -9,13 +9,14 @@ import {
 	ViewContainerRef,
 	inject
 } from '@angular/core';
-import { Map, NavigationControl, Marker, Popup } from 'maplibre-gl';
+import maplibregl, { Map, NavigationControl, Marker, Popup } from 'maplibre-gl';
 import { MapDetailsComponent } from '../map-details/map-details.component';
 import * as turf from '@turf/turf';
-import { DataService } from 'src/app/services/timisoara-points.servcie';
+import { DataService } from 'src/app/services/timisoara-points.service';
 import { ApiKeyManager } from '@esri/arcgis-rest-request';
 import { reverseGeocode } from '@esri/arcgis-rest-geocoding';
 import { GeocodingControl } from "@maptiler/geocoding-control/maplibregl";
+import { ServerApi } from 'src/app/services/server.service';
 
 @Component({
 	selector: 'app-map',
@@ -23,9 +24,10 @@ import { GeocodingControl } from "@maptiler/geocoding-control/maplibregl";
 	styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
-	map: Map | undefined;
+	map: any;
 
 	dataService = inject(DataService);
+	serverService = inject(ServerApi);
 
 	@ViewChild('map')
 	private mapContainer!: ElementRef<HTMLElement>;
@@ -80,24 +82,23 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 							}
 						});
 					});
-					
-					const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V'
-					this.map.on("click", (e) => {
+
+					const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V'					this.map.on('click', (e: any) => {
 						const coords = e.lngLat;
 						console.log(coords.toArray())
 
 						const authentication = ApiKeyManager.fromKey(apiKey);
-	
+
 						reverseGeocode([coords.toArray()[0], coords.toArray()[1]], {
 							authentication
-						  })
-						  .then((result) => {
+						}).then((result) => {
 							console.log(result);
 						});
-	
-					  });
+					});
 
 					const popup = new Popup({ offset: 25 }).setDOMContent(componentRef.location.nativeElement);
+
+					this.displayAllEvents();
 
 					componentRef.changeDetectorRef.detectChanges();
 					
@@ -118,5 +119,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	ngOnDestroy() {
 		this.map?.remove();
+	}
+
+	displayAllEvents(): void {
+		const date = new Date();
+		const type = 1;
+		this.serverService.getAllEvents(type, date).subscribe((events) => {
+			console.log(events);
+		});
 	}
 }
