@@ -1,0 +1,306 @@
+{
+  "data": [
+    {
+      "title": "Timisoara Street Food Festival 2023",
+      "date": {
+        "start_date": "May 13",
+        "when": "Thu, May 11, 12 AM – Sun, May 14, 12 AM"
+      },
+      "address": [
+        "Iulius Town, Piața Consiliul Europei 2",
+        "Timișoara, Romania"
+      ],
+      "link": "https://www.bandsintown.com/f/120103-timisoara-street-food-festival-2023?came_from=209",
+      "event_location_map": {
+        "image": "https://www.google.com/maps/vt/data=aaEKvMvAAPjrLJd2QPBxsQKxBRJYdASfdqaFaEw0-1EJVTVovIvOq4nVb4nYwcMrH7QLuAERg9PhSTQ-hGQuIlaUNx3O9E0wlMFx98od6EtiK7g67QY",
+        "link": "https://www.google.com/maps/place//data=!4m2!3m1!1s0x474567c28251367f:0xdad4d0d2dc253876?sa=X&hl=en",
+        "serpapi_link": "https://serpapi.com/search.json?data=%214m2%213m1%211s0x474567c28251367f%3A0xdad4d0d2dc253876&engine=google_maps&google_domain=google.com&hl=en&q=Events+in+Timisoara&type=place"
+      },
+      "ticket_info": [
+        {
+          "source": "Bandsintown.com",
+          "link": "https://www.bandsintown.com/f/120103-timisoara-street-food-festival-2023?came_from=209",
+          "link_type": "tickets"
+        },
+        {
+          "source": "AllEvents.in",
+          "link": "https://allevents.in/timisoara/better%20together?ref=eventlist-also-sugg",
+          "link_type": "more info"
+        }
+      ],
+      "venue": {
+        "name": "Iulius Town",
+        "rating": 4.6,
+        "reviews": 14193,
+        "link": "https://www.google.com/search?hl=en&q=Iulius+Town&ludocid=15768457799386085494&ibp=gwp%3B0,7"
+      },
+      "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQZNZ3H4NJZq-AWXnvnrXral0ZT37DodX6vUBRwIXZdgqJjUan-Y8wnf4&s",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqerz3PV9MibXibuKY4AMbIf5tT1E-exgVqk13A2jVc99D09ozWkmd-xkKnQ&s=10"
+    },
+    {
+      "title": "Macanache - Timișoara - Faber - May 13, 2023",
+      "date": { "start_date": "May 13", "when": "Sat, May 13, 6 PM" },
+      "address": ["FABER, Splaiul Peneș Curcanul 4-5", "Timișoara, Romania"],
+      "link": "https://viagogo.prf.hn/click/camref:1100luJMS/destination:https://www.viagogo.com/E-151696917",
+      "event_location_map": {
+        "image": "https://www.google.com/maps/vt/data=zQLIDrr1ZCtQcfkSNjjM3H800OyuZJsoN8imI16jymXrf8KbTmzpKHterb0Xovuy7tli3puwiTvqoS3b6-8igtbIdM1vyr1q_mG1NgAOSSAsxwNy7GY",
+        "link": "https://www.google.com/maps/place//data=!4m2!3m1!1s0x474567793be1286d:0x1fb119f856aff695?sa=X&hl=en",
+        "serpapi_link": "https://serpapi.com/search.json?data=%214m2%213m1%211s0x474567793be1286d%3A0x1fb119f856aff695&engine=google_maps&google_domain=google.com&hl=en&q=Events+in+Timisoara&type=place"
+      },
+      "ticket_info": [
+        {
+          "source": "Prf.hn",
+          "link": "https://viagogo.prf.hn/click/camref:1100luJMS/destination:https://www.viagogo.com/E-151696917",
+          "link_type": "tickets"
+        },
+        {
+          "source": "JamBase",
+          "link": "https://www.jambase.com/venue/faber",
+          "link_type": "more info"
+        },
+        {
+          "source": "AllEvents.in",
+          "link": "https://allevents.in/timisoara/reggae?ref=past-event-page-scat",
+          "link_type": "more info"
+        }
+      ],
+      "venue": {
+        "name": "FABER",
+        "rating": 4.8,
+        "reviews": 203,
+        "link": "https://www.google.com/search?hl=en&q=FABER&ludocid=2283635040450508437&ibp=gwp%3B0,7"
+      },
+      "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlmume5P5rJ18jXk19jGgXCDIr3ArGTr7kRd5-6ovVrw8iJ34cP3XT0X0&s",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbf7BOcsMZ5ppIkOfLZJAzZjKhXOLIP0bmoqzJY6n99LW-d0QrxsIY6Jhp-w&s"
+    },
+    {
+      "title": "Smart Iron Kids ~ Editia II",
+      "date": { "start_date": "May 13", "when": "Sat, May 13, 9 AM" },
+      "address": [
+        "Shopping City Timișoara, Calea Șagului 100",
+        "Timișoara, Romania"
+      ],
+      "link": "https://allevents.in/timisoara/shopping",
+      "event_location_map": {
+        "image": "https://www.google.com/maps/vt/data=I8HLJkNSzFDST1M_cyxDWq4RVfCfBgSYnQY965H9xeMVE7laqNfuW8A5pJ2cSLalSJ9EHJodWfLk7he08n3DhConhh33hDt-9CchnbArJTnXJHYwaHE",
+        "link": "https://www.google.com/maps/place//data=!4m2!3m1!1s0x47455d013cffb8d9:0xab426511fd3aa0?sa=X&hl=en",
+        "serpapi_link": "https://serpapi.com/search.json?data=%214m2%213m1%211s0x47455d013cffb8d9%3A0xab426511fd3aa0&engine=google_maps&google_domain=google.com&hl=en&q=Events+in+Timisoara&type=place"
+      },
+      "ticket_info": [
+        {
+          "source": "AllEvents.in",
+          "link": "https://allevents.in/timisoara/shopping",
+          "link_type": "more info"
+        }
+      ],
+      "venue": {
+        "name": "Shopping City Timișoara",
+        "rating": 4.5,
+        "reviews": 17677,
+        "link": "https://www.google.com/search?hl=en&q=Shopping+City+Timi%C8%99oara&ludocid=48205222878460576&ibp=gwp%3B0,7"
+      },
+      "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcJAhQVirLvkUNw5cuPg9sWDYjUFMl-iepNRsFKIhm7RlxxLRSIf4uFOA&s",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaDOMVj6Ik9lOSduz-HKrRiLZqRfuzSlUkKFlf0aIKpgCWAEgLw0FJjx2azA&s"
+    },
+    {
+      "title": "Just Push Play - Improv Comedy Show",
+      "date": { "start_date": "May 13", "when": "Sat, May 13, 7 PM" },
+      "address": [
+        "Casa Artelor, Strada Episcop Augustin Pacha 8",
+        "Timișoara, Romania"
+      ],
+      "link": "https://allevents.in/timisoara/just%20push%20play?ref=eventlist-also-sugg",
+      "event_location_map": {
+        "image": "https://www.google.com/maps/vt/data=BDouADfSNMGbu1VVvfa20tbgSsAkNzxPl57aoSPaweXt_XyDEzUcZeGDmbNAy9Atu9FhIjFONWsAsNRYcsy5WjnHiECbyVHV89oOYCWLNp9X9OVG-HI",
+        "link": "https://www.google.com/maps/place//data=!4m2!3m1!1s0x4745677f80430ce7:0xdd8af5197af9018f?sa=X&hl=en",
+        "serpapi_link": "https://serpapi.com/search.json?data=%214m2%213m1%211s0x4745677f80430ce7%3A0xdd8af5197af9018f&engine=google_maps&google_domain=google.com&hl=en&q=Events+in+Timisoara&type=place"
+      },
+      "description": "Explore all upcoming just push play events in Timisoara, find information & tickets for upcoming just push play events happening in Timisoara.",
+      "ticket_info": [
+        {
+          "source": "AllEvents.in",
+          "link": "https://allevents.in/timisoara/just%20push%20play?ref=eventlist-also-sugg",
+          "link_type": "more info"
+        }
+      ],
+      "venue": {
+        "name": "Casa Artelor",
+        "rating": 4.7,
+        "reviews": 220,
+        "link": "https://www.google.com/search?hl=en&q=Casa+Artelor&ludocid=15963841318954271119&ibp=gwp%3B0,7"
+      },
+      "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1wovDAbbqgJNuKXYpz2n2xc7-GLlTFd0aa81I94FA_iq1vBoCWc0mfbk&s",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5r1ECyICl2hI6Nbo5dd0F6L9b3gwIe7YT4GPbghhoBi5Z2ZUx9L-577JNA&s=10"
+    },
+    {
+      "title": "Eurovision Watch Party",
+      "date": { "start_date": "May 13", "when": "Sat, May 13, 10 PM" },
+      "address": ["Casa Tineretului, Str. Arieș 19", "Timișoara, Romania"],
+      "link": "https://allevents.in/timisoara/eurovision",
+      "event_location_map": {
+        "image": "https://www.google.com/maps/vt/data=XdgjkKwI9y3P4aFtJpbM6IRjgSPq1Zx49-58HlGK5vyMsxz-oRtR1tcevbSltFdmuJM8dmHH2ZXncQJKo3mgFPwCDLPd22lI7oYliZbySQPw6jYKX8A",
+        "link": "https://www.google.com/maps/place//data=!4m2!3m1!1s0x47455d9226fa26e9:0x9e5d2b2a6de0dd6e?sa=X&hl=en",
+        "serpapi_link": "https://serpapi.com/search.json?data=%214m2%213m1%211s0x47455d9226fa26e9%3A0x9e5d2b2a6de0dd6e&engine=google_maps&google_domain=google.com&hl=en&q=Events+in+Timisoara&type=place"
+      },
+      "description": "Join the Eurovision fever and explore the best of Eurovision 2023 events and watching parties in Timisoara. Get ready to enjoy the Europop mood with fellow fans while watching the contest live on...",
+      "ticket_info": [
+        {
+          "source": "AllEvents.in",
+          "link": "https://allevents.in/timisoara/eurovision",
+          "link_type": "more info"
+        }
+      ],
+      "venue": {
+        "name": "Casa Tineretului",
+        "rating": 3.9,
+        "reviews": 864,
+        "link": "https://www.google.com/search?hl=en&q=Casa+Tineretului&ludocid=11411324492058778990&ibp=gwp%3B0,7"
+      },
+      "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWJBAg8jGwm9oXnzFK0l9WyibZxOvfaLYJ-7tFP39jYw-3RrzdBFnERLA&s",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiE38Rf9vgwzqXPZf-WzHHk26M5xqZYEbF_14Lhdp4xcgRxgJ4jpGi_vgNRA&s=10"
+    },
+    {
+      "title": "SIMULTAN Festival 2023",
+      "date": { "start_date": "Sep 30", "when": "Sat, Sep 30, 4 – 11 PM" },
+      "address": [
+        "Corneliu Miklosi, Bulevardul Take Ionescu 83",
+        "Timișoara, Romania"
+      ],
+      "link": "https://allevents.in/org/simultan-festival/645200",
+      "event_location_map": {
+        "image": "https://www.google.com/maps/vt/data=sg2sRoq_5nNwrMznE1XyT7ZRHQts8E2mGd8Vo221C9hQNKnb0SLbDLkpqP1VmWpnWKfC-tmx6Lb3ugxN56CJcC70FYi8gdiFGuQVHcroGmuDqasf_Ew",
+        "link": "https://www.google.com/maps/place//data=!4m2!3m1!1s0x474567ce4f7574fb:0xa2d416622e7d4792?sa=X&hl=en",
+        "serpapi_link": "https://serpapi.com/search.json?data=%214m2%213m1%211s0x474567ce4f7574fb%3A0xa2d416622e7d4792&engine=google_maps&google_domain=google.com&hl=en&q=Events+in+Timisoara&type=place"
+      },
+      "description": "List of SIMULTAN Festival upcoming events. Art Events by SIMULTAN Festival. annual festival for video art, exploratory music and media related projects - htt",
+      "ticket_info": [
+        {
+          "source": "AllEvents.in",
+          "link": "https://allevents.in/org/simultan-festival/645200",
+          "link_type": "more info"
+        }
+      ],
+      "venue": {
+        "name": "Corneliu Miklosi",
+        "rating": 4.6,
+        "reviews": 29,
+        "link": "https://www.google.com/search?hl=en&q=Corneliu+Miklosi&ludocid=11733027540149553042&ibp=gwp%3B0,7"
+      },
+      "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsLZn1KEl5aGbYYjc89CiM46ayQYFb1q1YSNsB9pY12MEgUXeRluxkJWY&s",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoMWybeZ12XAqPVsKYe9kYfBWSEWtc3N5ZLiDEQiQJS01Csu1urqLQheFxvA&s=10"
+    },
+    {
+      "title": "AM FOST LA MUNTE SI MI-A PLACUT",
+      "date": { "start_date": "May 13", "when": "Sat, May 13, 7 PM" },
+      "address": ["D'arc, Piața Unirii 5", "Timișoara, Romania"],
+      "link": "http://www.songkick.com/concerts/41115260-am-fost-la-munte-si-mia-placut-at-club-darc?utm_medium=organic&utm_source=microformat",
+      "event_location_map": {
+        "image": "https://www.google.com/maps/vt/data=w0UiMvs7km8C5SIEKxNi7cotN50xZsGyMDhY0f1GHUe15qwW4FrP83mZsqIojYD3w3C2kmUoQm-GbcNe3K3o-XqzH8IzzQIowQrfVEBUaCllrd_bcAw",
+        "link": "https://www.google.com/maps/place//data=!4m2!3m1!1s0x47456781a467864d:0x2046faac0ed3698?sa=X&hl=en",
+        "serpapi_link": "https://serpapi.com/search.json?data=%214m2%213m1%211s0x47456781a467864d%3A0x2046faac0ed3698&engine=google_maps&google_domain=google.com&hl=en&q=Events+in+Timisoara&type=place"
+      },
+      "ticket_info": [
+        {
+          "source": "Songkick.com",
+          "link": "http://www.songkick.com/concerts/41115260-am-fost-la-munte-si-mia-placut-at-club-darc?utm_medium=organic&utm_source=microformat",
+          "link_type": "tickets"
+        }
+      ],
+      "venue": {
+        "name": "D'arc",
+        "rating": 4,
+        "reviews": 204,
+        "link": "https://www.google.com/search?hl=en&q=D%27arc&ludocid=145363867154593432&ibp=gwp%3B0,7"
+      },
+      "thumbnail": "https://www.google.com/maps/vt/data=w0UiMvs7km8C5SIEKxNi7cotN50xZsGyMDhY0f1GHUe15qwW4FrP83mZsqIojYD3w3C2kmUoQm-GbcNe3K3o-XqzH8IzzQIowQrfVEBUaCllrd_bcAw"
+    },
+    {
+      "title": "Concert Adrian Ilie",
+      "date": { "start_date": "May 13", "when": "Sat, May 13, 8 PM" },
+      "address": [
+        "Porto Arte, Splaiul Nicolae Titulescu",
+        "Timișoara, Romania"
+      ],
+      "link": "https://allevents.in/timisoara/concert-adrian-ilie/200024549735821?ref=eventlist-cat",
+      "event_location_map": {
+        "image": "https://www.google.com/maps/vt/data=alX4xl7e4R07SnjS1UcUMKvpVnIYDG7xzORUOoktfu_-zyqqjglloesME4F5UBaWWUakAer81DLyvGyJ-9dmorCFpkHbGH_XvBNcbPdlhMN87naoHHA",
+        "link": "https://www.google.com/maps/place//data=!4m2!3m1!1s0x47455d78e1bc12c5:0x33cc2b6e7b58fe92?sa=X&hl=en",
+        "serpapi_link": "https://serpapi.com/search.json?data=%214m2%213m1%211s0x47455d78e1bc12c5%3A0x33cc2b6e7b58fe92&engine=google_maps&google_domain=google.com&hl=en&q=Events+in+Timisoara&type=place"
+      },
+      "description": "Concert folk si nu numai",
+      "ticket_info": [
+        {
+          "source": "AllEvents.in",
+          "link": "https://allevents.in/timisoara/concert-adrian-ilie/200024549735821?ref=eventlist-cat",
+          "link_type": "more info"
+        }
+      ],
+      "venue": {
+        "name": "Porto Arte",
+        "rating": 3.9,
+        "reviews": 1263,
+        "link": "https://www.google.com/search?hl=en&q=Porto+Arte&ludocid=3732405944699125394&ibp=gwp%3B0,7"
+      },
+      "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX4H5DQqOy_YUr2OrNx4CRCLs4GgrkxkxBfBSoaR3yD4ShgQBVLguBIUM&s",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxGnmPi42vAK7vBQjeDC0qB0xEgr4evoPwySR61o79Yg&s=10"
+    },
+    {
+      "title": "RAVE pres. BACK IN TOWN w...",
+      "date": { "start_date": "May 13", "when": "Sat, May 13, 11 PM" },
+      "address": ["Club Pago, Strada Martin Luther 4", "Timișoara, Romania"],
+      "link": "https://allevents.in/timisoara/rave-pres-back-in-town-w-exob%7Ctulvan%7Crawss%7Cventer%7Cdeelow/200024549731856?ref=eventlist-cat",
+      "event_location_map": {
+        "image": "https://www.google.com/maps/vt/data=eiByUAJPSWia3RsWDwru0OZSBlXmgMLBFIVPraTTuYMOG0be7pT_k1rrf3Oj4YtixUejKtnzQWLPrj6uCBCw4QV3uGQesKHHSFxJK-K8ay42NGd8kgs",
+        "link": "https://www.google.com/maps/place//data=!4m2!3m1!1s0x4745676e8b557d53:0x75de161902fe2d3d?sa=X&hl=en",
+        "serpapi_link": "https://serpapi.com/search.json?data=%214m2%213m1%211s0x4745676e8b557d53%3A0x75de161902fe2d3d&engine=google_maps&google_domain=google.com&hl=en&q=Events+in+Timisoara&type=place"
+      },
+      "description": "Bringing back the RAVE RO vibes in town, prepare for a full night of bouncy grooves and high level tunes. The team: @exob.ofc @tulvan.ro @venter.ofc @deelowmusic and @rawss.dj ? ? Date: 13 May...",
+      "ticket_info": [
+        {
+          "source": "AllEvents.in",
+          "link": "https://allevents.in/timisoara/rave-pres-back-in-town-w-exob%7Ctulvan%7Crawss%7Cventer%7Cdeelow/200024549731856?ref=eventlist-cat",
+          "link_type": "more info"
+        }
+      ],
+      "venue": {
+        "name": "Club Pago",
+        "rating": 4.8,
+        "reviews": 16,
+        "link": "https://www.google.com/search?hl=en&q=Club+Pago&ludocid=8493250243947539773&ibp=gwp%3B0,7"
+      },
+      "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmB79xLcoVFE-qgZLjq7VY4qEXhDeY-Tj-erYnB1XJoH6aLe0UJqnQdPY&s",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_XplBMpMNKqe_z627dl6QKcPqtKQD0oJtjv3tk1NANpBjEPo4KreIpnmh1A&s=10"
+    },
+    {
+      "title": "Senzoria Family Fest - Iulius Gardens Timisoara",
+      "date": {
+        "start_date": "Aug 26",
+        "when": "Sat, Aug 26, 10 AM – Sun, Aug 27, 9 PM"
+      },
+      "address": [
+        "Iulius Town, Piața Consiliul Europei 2",
+        "Timișoara, Romania"
+      ],
+      "link": "https://allevents.in/org/senzoria-family-fest/20030494?ref=organizer-ep-v4",
+      "event_location_map": {
+        "image": "https://www.google.com/maps/vt/data=aaEKvMvAAPjrLJd2QPBxsQKxBRJYdASfdqaFaEw0-1EJVTVovIvOq4nVb4nYwcMrH7QLuAERg9PhSTQ-hGQuIlaUNx3O9E0wlMFx98od6EtiK7g67QY",
+        "link": "https://www.google.com/maps/place//data=!4m2!3m1!1s0x474567c28251367f:0xdad4d0d2dc253876?sa=X&hl=en",
+        "serpapi_link": "https://serpapi.com/search.json?data=%214m2%213m1%211s0x474567c28251367f%3A0xdad4d0d2dc253876&engine=google_maps&google_domain=google.com&hl=en&q=Events+in+Timisoara&type=place"
+      },
+      "ticket_info": [
+        {
+          "source": "AllEvents.in",
+          "link": "https://allevents.in/org/senzoria-family-fest/20030494?ref=organizer-ep-v4",
+          "link_type": "more info"
+        }
+      ],
+      "venue": {
+        "name": "Iulius Town",
+        "rating": 4.6,
+        "reviews": 14193,
+        "link": "https://www.google.com/search?hl=en&q=Iulius+Town&ludocid=15768457799386085494&ibp=gwp%3B0,7"
+      },
+      "thumbnail": "https://www.google.com/maps/vt/data=aaEKvMvAAPjrLJd2QPBxsQKxBRJYdASfdqaFaEw0-1EJVTVovIvOq4nVb4nYwcMrH7QLuAERg9PhSTQ-hGQuIlaUNx3O9E0wlMFx98od6EtiK7g67QY"
+    }
+  ]
+}
