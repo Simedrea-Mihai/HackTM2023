@@ -14,7 +14,10 @@ import { DrawerLocationsComponent } from './drawer-locations/drawer-locations.co
 import { DrawerAddEventComponent } from './drawer-add-event/drawer-add-event.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BottomNavComponent } from './bottom-nav/bottom-nav.component';
-
+import { NavigateDrawerComponent } from './navigate-drawer/navigate-drawer.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -25,7 +28,8 @@ import { BottomNavComponent } from './bottom-nav/bottom-nav.component';
 		DrawerFilterComponent,
 		DrawerLocationsComponent,
 		DrawerAddEventComponent,
-		BottomNavComponent
+		BottomNavComponent,
+		NavigateDrawerComponent
 	],
 	imports: [
 		HttpClientModule,
@@ -34,7 +38,10 @@ import { BottomNavComponent } from './bottom-nav/bottom-nav.component';
 		BrowserModule,
 		MatIconModule,
 		AppRoutingModule,
-		BrowserAnimationsModule
+		BrowserAnimationsModule,
+		DragDropModule,
+		MatButtonModule,
+		MatCheckboxModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]

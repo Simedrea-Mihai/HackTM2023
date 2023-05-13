@@ -9,5 +9,8 @@
 .bottomNav>*{
   border: none;
   background-color: white;
-  width:50px
+  width:40px;
+}
+.eee{
+  filter: invert(57%) sepia(76%) saturate(5889%) hue-rotate(243deg) brightness(100%) contrast(102%);
 }
