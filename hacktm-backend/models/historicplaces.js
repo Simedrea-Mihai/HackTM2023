@@ -8,10 +8,13 @@ class HistoricPlaces {
       longitude: { type: String, required: true },
       latitude: { type: String, required: true },
     });
-    this.HModel = mongoose.Model("HistoricPlaces", this.Schema);
+    this.HModel = mongoose.model("HistoricPlaces", this.Schema);
   }
   async AddHistoricPlace(data) {
     return await new this.HModel(data).save();
+  }
+  async GetAllHistoricalPlaces() {
+    return await this.HModel.find();
   }
 }
 

@@ -30,7 +30,7 @@ evrouter.get("/eventype", async (req, res) => {
     res.status(400).send({ msg: "error" });
   }
 });
-evrouter.get("/eventbydate", async (req, res) => {
+evrouter.post("/eventbydate", async (req, res) => {
   try {
     const data = await EvModel.GetEventByDate(req.body.date);
     res.status(200).send(data);
