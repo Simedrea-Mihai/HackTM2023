@@ -34,6 +34,9 @@ class Events {
       $or: [{ startdate: date }, { endate: { $gte: date } }],
     });
   }
+  async GetAllEvents() {
+    return await this.EventsModel.find();
+  }
 }
 
 module.exports = Events;
