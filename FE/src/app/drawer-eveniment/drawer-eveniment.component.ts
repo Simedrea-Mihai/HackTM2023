@@ -24,7 +24,6 @@ export class DrawerEvenimentComponent implements OnInit {
 	}
 
 	ngDoCheck(): void {
-		console.log(this.renderService.getBoolean());
 		this.isComponentInView = this.renderService.getBoolean();
 	}
 

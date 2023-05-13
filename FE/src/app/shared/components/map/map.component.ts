@@ -26,10 +26,17 @@ import { RenderService } from 'src/app/services/render.service';
 })
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	map: any;
+	allMarkers: any[] = [];
 	isMarkerClicked = false;
 
 	dataService = inject(DataService);
 	serverService = inject(ServerApi);
+
+	name: string = '';
+	type: string = '';
+	description: string = '';
+	link: string = '';
+	date: string = '';
 
 	@ViewChild('map')
 	private mapContainer!: ElementRef<HTMLElement>;
@@ -88,7 +95,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V';
 					this.map.on('click', (e: any) => {
 						const coords = e.lngLat;
-						console.log(coords.toArray());;
 						const authentication = ApiKeyManager.fromKey(apiKey);
 
 						reverseGeocode([coords.toArray()[0], coords.toArray()[1]], {
@@ -148,8 +154,17 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.serverService.getAllEvents(date).subscribe((events) => {
 			events.forEach((element: any) => {
 				if (element.type === '1') {
-					const marker = new maplibregl.Marker({ color: '#fc0000' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
+					let marker = new maplibregl.Marker({ color: '#fc0000' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
+					this.allMarkers.push(element);
 					marker.getElement().addEventListener('click', () => {
+						
+						const data = this.getClosestMarker(this.allMarkers, element);
+						this.name = data.name;
+						this.type = data.type;
+						this.description = data.description;
+						this.link = data.link;
+						this.date = data.date;
+
 						this.isMarkerClicked = true;
 						this.renderService.setBoolean(this.isMarkerClicked);
 					});
@@ -163,4 +178,22 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	addCurrentLocationOnMap(): void {}
+
+	getClosestMarker(markers: any, pressed: any): any {
+		const R = 6371e3;
+		const distances = markers.map((marker: any) => {
+		  const lat1 = pressed.latitude * Math.PI / 180;
+		  const lat2 = marker.latitude * Math.PI / 180;
+		  const dLat = (marker.latitude - pressed.latitude) * Math.PI / 180;
+		  const dLon = (marker.longitude - pressed.longitude) * Math.PI / 180;
+		  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+			Math.cos(lat1) * Math.cos(lat2) *
+			Math.sin(dLon / 2) * Math.sin(dLon / 2);
+		  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		  const d = R * c;
+		  return { ...marker, distance: d };
+		});
+		distances.sort((a: any, b: any) => a.distance - b.distance);
+		return distances[0];
+	  }
 }
