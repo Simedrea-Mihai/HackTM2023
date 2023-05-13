@@ -7,6 +7,8 @@ const options = {
 const NodeGeoCoder = require("node-geocoder");
 const evdata = require("./hacktm-backendev.json");
 const { EvModel } = require("./controller/eventscontroller");
+const { HModel } = require("./controller/historicplacescontroller");
+const heritage = require("./heirtage.json");
 const { format, parse } = require("date-fns");
 function reverseString(str) {
   const arrayStrings = str.split("");
@@ -55,4 +57,21 @@ const poppulatedb = () => {
     }
   });
 };
-module.exports = poppulatedb;
+const populateheritage = () => {
+  try {
+    heritage.data.forEach(async (e) => {
+      const geolocation = await NodeGeoCoder(options).geocode({
+        address: `${e.address_name + "Timisoara"}`,
+      });
+      await HModel.AddHistoricPlace({
+        name: e.name,
+        description: e.description,
+        longitude: geolocation[0].longitude,
+        latitude: geolocation[0].latitude,
+      });
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+module.exports = { poppulatedb, populateheritage };
