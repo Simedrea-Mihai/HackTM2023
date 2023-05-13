@@ -168,8 +168,21 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						this.isMarkerClicked = true;
 						this.renderService.setBoolean(this.isMarkerClicked);
 					});
-				} else if (element.type == 2) {
-					new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+				} else if (element.type === '2') {
+					let marker = new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+					this.allMarkers.push(element);
+					marker.getElement().addEventListener('click', () => {
+						
+						const data = this.getClosestMarker(this.allMarkers, element);
+						this.name = data.name;
+						this.type = data.type;
+						this.description = data.description;
+						this.link = data.link;
+						this.date = data.date;
+
+						this.isMarkerClicked = true;
+						this.renderService.setBoolean(this.isMarkerClicked);
+					});
 				} else if (element.type == 3) {
 					new maplibregl.Marker({ color: '#308efd' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
 				}
