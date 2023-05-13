@@ -17,3 +17,6 @@ hrouter.post("/addhistoric", async (req, res) => {
     res.status(400).send({ err: error });
   }
 });
+hrouter.get("/proximitybuildings", async (req, res) => {});
+
+module.exports = hrouter;
