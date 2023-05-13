@@ -8,9 +8,14 @@ import { Observable } from 'rxjs';
 export class ServerApi {
 	constructor(private http: HttpClient) {}
 
-	getAllEvents(date: any): Observable<any> {
-		const url = 'http://localhost:5000/eventbydate';
-		const body = { date: date };
+	getAllEvents(startDate: any, endate: any): Observable<any> {
+		const url = 'http://localhost:5000/allevents';
+		const body = { start: startDate, end: endate };
 		return this.http.post(url, body);
+	}
+
+	getAllMonuments(): Observable<any> {
+		const url = 'http://localhost:5000/allhistoric';
+		return this.http.get(url);
 	}
 }

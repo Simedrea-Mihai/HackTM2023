@@ -5,3 +5,10 @@
 </div>
 
 <app-drawer-eveniment [name]="name" [type]="type" [description]="description" [link]="link" [date]="date"></app-drawer-eveniment>
+
+<ng-container *ngIf="showAddEvent">
+	<app-drawer-locations [location]="location"></app-drawer-locations>
+    <ng-container *ngIf="showAddEventForm">
+        <app-drawer-add-event [location]="location" [lat]="lat" [long]="lon"></app-drawer-add-event>
+    </ng-container>
+</ng-container>

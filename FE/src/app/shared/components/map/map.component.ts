@@ -16,6 +16,7 @@ import { ApiKeyManager } from '@esri/arcgis-rest-request';
 import { reverseGeocode } from '@esri/arcgis-rest-geocoding';
 import { GeocodingControl } from '@maptiler/geocoding-control/maplibregl';
 import { ServerApi } from 'src/app/services/server.service';
+import { FilterService } from 'src/app/services/filter.service';
 import { DrawerEvenimentComponent } from 'src/app/drawer-eveniment/drawer-eveniment.component';
 import { RenderService } from 'src/app/services/render.service';
 
@@ -31,6 +32,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	dataService = inject(DataService);
 	serverService = inject(ServerApi);
+	filterService = inject(FilterService);
+
+	markers: Marker[] = [];
 
 	name: string = '';
 	type: string = '';
@@ -38,12 +42,29 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	link: string = '';
 	date: string = '';
 
+	location: string = '';
+	lat = '';
+	lon = '';
+
+	showAddEvent = false;
+	showAddEventForm = false;
+	newMarker: Marker | undefined;
+
 	@ViewChild('map')
 	private mapContainer!: ElementRef<HTMLElement>;
 
 	constructor(private cfr: ComponentFactoryResolver, private vcr: ViewContainerRef, private renderService: RenderService) {}
 
 	ngOnInit(): void {}
+
+	ngDoCheck(): void {
+		this.showAddEventForm = this.renderService.getBooleanShowAddEventForm();
+		this.showAddEvent = this.renderService.getBooleanShowAddEvent();
+
+		if (this.showAddEvent === false && this.newMarker !== undefined) {
+			this.newMarker.remove();
+		}
+	}
 
 	ngAfterViewInit() {
 		const componentFactory = this.cfr.resolveComponentFactory(DrawerEvenimentComponent);
@@ -96,11 +117,26 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					this.map.on('click', (e: any) => {
 						const coords = e.lngLat;
 						const authentication = ApiKeyManager.fromKey(apiKey);
+						
+						if (this.renderService.getBoolean() === false) {
+							this.showAddEvent = true;
+							this.renderService.setBooleanShowAddEvent(true);
+							console.log(e);
+
+							if (this.newMarker !== undefined) {
+								this.newMarker.remove();
+							}
+
+							// this.location = 
+							this.newMarker = new Marker({ color: '#A020F0' }).setLngLat([coords.toArray()[0], coords.toArray()[1]]).addTo(this.map);
+							this.lat = coords.toArray()[1].toString();
+							this.lon = coords.toArray()[0].toString();
+						}
 
 						reverseGeocode([coords.toArray()[0], coords.toArray()[1]], {
 							authentication
 						}).then((result) => {
-							console.log(result);
+							this.location = result.address['Address'];
 						});
 					});
 
@@ -122,6 +158,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					geolocate.on('geolocate', function () {
 						console.log('A geolocate event has occurred.');
 					});
+					this.addGeolocationBttton();
 
 					this.map?.addControl(new NavigationControl({}), 'bottom-left');
 
@@ -145,50 +182,102 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	displayAllEvents(): void {
-		const today: Date = new Date();
-		const year: number = today.getFullYear();
-		const month: number = today.getMonth();
-		const day: number = today.getDate();
-		const date = new Date(year, month, day);
-		this.serverService.getAllEvents(date).subscribe((events) => {
-			events.forEach((element: any) => {
-				if (element.type === '1') {
-					let marker = new maplibregl.Marker({ color: '#fc0000' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
-					this.allMarkers.push(element);
-					marker.getElement().addEventListener('click', () => {
-						const data = this.getClosestMarker(this.allMarkers, element);
-						this.name = data.name;
-						this.type = data.type;
-						this.description = data.description;
-						this.link = data.link;
-						this.date = data.date;
+		this.filterService.getEvent().subscribe((filter) => {
+			if (this.markers.length > 0) {
+				this.markers.forEach((marker: any) => {
+					marker.remove();
+				});
+			}
 
-						this.isMarkerClicked = true;
-						this.renderService.setBoolean(this.isMarkerClicked);
-					});
-				} else if (element.type === '2') {
-					let marker = new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
-					this.allMarkers.push(element);
-					marker.getElement().addEventListener('click', () => {
-						
-						const data = this.getClosestMarker(this.allMarkers, element);
-						this.name = data.name;
-						this.type = data.type;
-						this.description = data.description;
-						this.link = data.link;
-						this.date = data.date;
+			console.log(filter);
+			if (filter.startDate) {
+				this.serverService.getAllEvents(filter.startDate, filter.endDate).subscribe((events) => {
+					events.forEach((element: any) => {
+						if (element.type === '1' && filter.official == true) {
+							const marker = new maplibregl.Marker({ color: '#fc0000' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
+							this.markers.push(marker);
+							this.allMarkers.push(element);
+							marker.getElement().addEventListener('click', () => {
+								const data = this.getClosestMarker(this.allMarkers, element);
+								this.name = data.name;
+								this.type = data.type;
+								this.description = data.description;
+								this.link = data.link;
+								this.date = data.date;
 
-						this.isMarkerClicked = true;
-						this.renderService.setBoolean(this.isMarkerClicked);
+								if (!this.showAddEvent) {
+									this.isMarkerClicked = true;
+									this.renderService.setBoolean(this.isMarkerClicked);
+								}
+							});
+						} else if (element.type == 2 && filter.unofficial == true) {
+							const marker = new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+							this.allMarkers.push(element);
+							this.markers.push(marker);
+
+							marker.getElement().addEventListener('click', () => {
+								const data = this.getClosestMarker(this.allMarkers, element);
+								this.name = data.name;
+								this.type = data.type;
+								this.description = data.description;
+								this.link = data.link;
+								this.date = data.date;
+
+								if (!this.showAddEvent) {
+									this.isMarkerClicked = true;
+									this.renderService.setBoolean(this.isMarkerClicked);
+								}
+							});
+						} else if (element.type == 3) {
+							const marker = new maplibregl.Marker({ color: '#308efd' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
+							this.markers.push(marker);
+						}
 					});
-				} else if (element.type == 3) {
-					new maplibregl.Marker({ color: '#308efd' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
-				}
-			});
+				});
+			} else {
+				this.serverService.getAllMonuments().subscribe((monuments) => {
+					monuments.forEach((element: any) => {
+						const marker = new maplibregl.Marker({color: '#808080', scale: 0.8}).setLngLat([element.longitude, element.latitude]).addTo(this.map);
+							this.allMarkers.push(element);
+							this.markers.push(marker);
+
+							marker.getElement().addEventListener('click', () => {
+								const data = this.getClosestMarker(this.allMarkers, element);
+								this.name = data.name;
+								this.type = data.type;
+								this.description = data.description;
+								this.link = data.link;
+								this.date = data.date;
+
+								if (!this.showAddEvent) {
+									this.isMarkerClicked = true;
+									this.renderService.setBoolean(this.isMarkerClicked);
+								}
+							});
+				});
+					});
+					
+			}
 		});
 	}
 
 	addCurrentLocationOnMap(): void {}
+
+	addGeolocationBttton(): void {
+		var geolocate = new maplibregl.GeolocateControl({
+			positionOptions: {
+				enableHighAccuracy: true
+			},
+			trackUserLocation: true
+		});
+		// Add the control to the map.
+		// this.map.addControl(geolocate);
+		// Set an event listener that fires
+		// when a geolocate event occurs.
+		geolocate.on('geolocate', function () {
+			console.log('A geolocate event has occurred.');
+		});
+	}
 
 	getClosestMarker(markers: any, pressed: any): any {
 		const R = 6371e3;

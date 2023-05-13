@@ -14,3 +14,7 @@
 .eee{
   filter: invert(57%) sepia(76%) saturate(5889%) hue-rotate(243deg) brightness(100%) contrast(102%);
 }
+
+.highlighted-button:hover {
+  background-color: gold;
+}

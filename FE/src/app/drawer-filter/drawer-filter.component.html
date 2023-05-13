@@ -1,7 +1,7 @@
 <div class="drawer animate__animated animate__slideInUp animate__fadeOut">
-	<div class="line"></div>
+	<div class="line" (click)="close()"></div>
 	<form [formGroup]="filterForm">
-		<p class="label">Afiseaza evenimentele:</p>
+		<p class="label">Show events:</p>
 		<div>
 			<input type="checkbox" formControlName="official" />
 			<p>Official</p>
@@ -10,10 +10,10 @@
 			<input type="checkbox" formControlName="unofficial" />
 			<p>Unofficial</p>
 		</div>
-		<p>Data de incepere:</p>
-		<input formControlName="startdate" type="date" class="input" />
-		<p>Data de incheiere:</p>
-		<input formControlName="endate" type="date" class="input" />
+		<p>Start Date:</p>
+		<input id="starDateRef" [formControl]="startDate" type="date" class="input" [ngModel] ="currentDate | date:'yyyy-MM-dd'"/>
+		<p>End date:</p>
+		<input [formControl]="endDate" type="date" class="input" [ngModel] ="sevenDaysFromCurrentTime | date:'yyyy-MM-dd'"/>
 	</form>
-	<button class="btn">Filter results</button>
+	<!-- <button class="btn" (click)="onSubmit()">Filter results</button> -->
 </div>
