@@ -106,6 +106,20 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					const gc = new GeocodingControl({ apiKey: '97sou0kVjlk5MxdovBEU' });
 					this.map.addControl(gc, 'top-right');
 
+					var geolocate = new maplibregl.GeolocateControl({
+						positionOptions: {
+							enableHighAccuracy: true
+						},
+						trackUserLocation: true
+					});
+					// Add the control to the map.
+					this.map.addControl(geolocate);
+					// Set an event listener that fires
+					// when a geolocate event occurs.
+					geolocate.on('geolocate', function () {
+						console.log('A geolocate event has occurred.');
+					});
+
 					this.map?.addControl(new NavigationControl({}), 'top-right');
 					// new Marker({ color: '#FF0000' }).setLngLat([longitude, latitude]).setPopup(popup).addTo(this.map);
 
@@ -131,20 +145,19 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 		const day: number = today.getDate();
 		const date = new Date(year, month, day);
 		this.serverService.getAllEvents(date).subscribe((events) => {
-			console.log(events);
 			events.forEach((element: any) => {
-				console.log(element.type);
-				console.log(element.latitude);
-				console.log(element.longitude);
+				// console.log(element.type);
+				// console.log(element.latitude);
+				// console.log(element.longitude);
 				if (element.type === '1') {
-					console.log('intra aici');
+					// console.log('intra aici');
 					new maplibregl.Marker({ color: '#fc0000' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
 				} else if (element.type == 2) {
 					new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
 				} else if (element.type == 3) {
 					new maplibregl.Marker({ color: '#308efd' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
 				}
-				console.log(element.name);
+				// console.log(element.name);
 			});
 		});
 	}
