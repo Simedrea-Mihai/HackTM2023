@@ -119,10 +119,21 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	displayAllEvents(): void {
-		const date = new Date();
-		const type = 1;
-		this.serverService.getAllEvents(type, date).subscribe((events) => {
-			console.log(events);
+		this.serverService.getAllEvents().subscribe((events) => {
+			events.forEach((element: any) => {
+				console.log(element.type);
+				console.log(element.latitude);
+				console.log(element.longitude);
+				if (element.type === '1') {
+					console.log('intra aici');
+					new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+				} else if (element.type == 2) {
+					new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+				} else if (element.type == 3) {
+					new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+				}
+				console.log(element.name);
+			});
 		});
 	}
 }
