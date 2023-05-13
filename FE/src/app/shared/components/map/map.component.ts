@@ -83,7 +83,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						});
 					});
 
-					const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V'					this.map.on('click', (e: any) => {
+					const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V'					
+					this.map.on('click', (e: any) => {
 						const coords = e.lngLat;
 						console.log(coords.toArray())
 
