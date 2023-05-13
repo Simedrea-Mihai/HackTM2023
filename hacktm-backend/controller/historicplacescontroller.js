@@ -69,5 +69,13 @@ hrouter.post("/proximitybuildings", async (req, res) => {
     res.status(400).send({ err: "error" });
   }
 });
-
-module.exports = hrouter;
+hrouter.get("/allhistoric", async (req, res) => {
+  try {
+    const data = await HModel.GetAllHistoricalPlaces();
+    res.status(200).send(data);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({ err: "error" });
+  }
+});
+module.exports = { hrouter, HModel };
