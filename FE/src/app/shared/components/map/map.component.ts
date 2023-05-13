@@ -104,7 +104,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
 					const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V';
 					this.map.on('click', (e: any) => {
-						this.showAddEvent = true;
+						//this.showAddEvent = true;
 						const coords = e.lngLat;
 						const authentication = ApiKeyManager.fromKey(apiKey);
 
@@ -173,6 +173,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					if (element.type === '1' && filter.official == true) {
 						const marker = new maplibregl.Marker({ color: '#fc0000' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
 						this.markers.push(marker);
+						this.allMarkers.push(element);
 						marker.getElement().addEventListener('click', () => {
 							const data = this.getClosestMarker(this.allMarkers, element);
 							this.name = data.name;
@@ -186,6 +187,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						});
 					} else if (element.type == 2 && filter.unofficial == true) {
 						const marker = new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+						this.allMarkers.push(element);
 						this.markers.push(marker);
 
 						marker.getElement().addEventListener('click', () => {
@@ -218,7 +220,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 			trackUserLocation: true
 		});
 		// Add the control to the map.
-		this.map.addControl(geolocate);
+		// this.map.addControl(geolocate);
 		// Set an event listener that fires
 		// when a geolocate event occurs.
 		geolocate.on('geolocate', function () {
