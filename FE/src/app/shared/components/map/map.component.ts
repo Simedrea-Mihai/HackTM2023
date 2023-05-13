@@ -15,6 +15,7 @@ import * as turf from '@turf/turf';
 import { DataService } from 'src/app/services/timisoara-points.service';
 import { ApiKeyManager } from '@esri/arcgis-rest-request';
 import { reverseGeocode } from '@esri/arcgis-rest-geocoding';
+import { GeocodingControl } from "@maptiler/geocoding-control/maplibregl";
 import { ServerApi } from 'src/app/services/server.service';
 
 @Component({
@@ -82,10 +83,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						});
 					});
 
+					const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V'					
 					this.map.on('click', (e: any) => {
 						const coords = e.lngLat;
-						console.log(coords.toArray());
-						const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V';
+						console.log(coords.toArray())
 
 						const authentication = ApiKeyManager.fromKey(apiKey);
 
@@ -101,6 +102,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					this.displayAllEvents();
 
 					componentRef.changeDetectorRef.detectChanges();
+					
+					const gc = new GeocodingControl({apiKey: '97sou0kVjlk5MxdovBEU'});
+					this.map.addControl(gc, 'top-right');
 
 					this.map?.addControl(new NavigationControl({}), 'top-right');
 					new Marker({ color: '#FF0000' }).setLngLat([longitude, latitude]).setPopup(popup).addTo(this.map);
