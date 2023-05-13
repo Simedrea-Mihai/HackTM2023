@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
 	}
 
 	title = 'FE';
+	filterActive = false;
 
 	name = 'Nume eveniment';
 	type = 'Eveniment oficial';
