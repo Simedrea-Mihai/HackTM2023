@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, inject } from 
 import { FormGroup, FormControl } from '@angular/forms';
 import { FilterService } from '../services/filter.service';
 import { Filter } from '../Models/filter.model';
+import { RenderService } from '../services/render.service';
 
 @Component({
 	selector: 'app-drawer-filter',
@@ -21,7 +22,7 @@ export class DrawerFilterComponent implements OnInit {
 
 	filterService = inject(FilterService);
 
-	constructor() {
+	constructor(private readonly service: RenderService) {
 		this.filterForm = new FormGroup({
 			official: this.official,
 			unofficial: this.unofficial,
@@ -34,6 +35,10 @@ export class DrawerFilterComponent implements OnInit {
 		this.filterForm.valueChanges.subscribe((value) => {
 			// this.onSubmit();
 		});
+	}
+
+	close(): void {
+		this.service.setBooleanShowFilter(false);
 	}
 
 	onSubmit(): void {

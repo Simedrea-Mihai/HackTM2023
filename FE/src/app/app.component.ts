@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ShowLegendService } from './services/legen.service';
+import { RenderService } from './services/render.service';
 declare var navigator: Navigator;
 
 @Component({
@@ -8,13 +9,26 @@ declare var navigator: Navigator;
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+	constructor(private readonly service: RenderService) {
+
+	}
+
 	showLegend = false;
 	legendService = inject(ShowLegendService);
+
+	ngDoCheck(): void {
+		this.filterActive = this.service.getBooleanShowFilter();
+	}
 
 	ngOnInit(): void {
 		this.legendService.getEvent().subscribe((response) => {
 			this.showLegend = response;
 		});
+	}
+
+	changeState(): void {
+		this.filterActive = !this.filterActive;
+		this.service.setBooleanShowFilter(this.filterActive);
 	}
 
 	title = 'FE';

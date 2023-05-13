@@ -2,7 +2,7 @@
 	<app-map></app-map>
 	<app-filter-button 
 		*ngIf="showLegend" 
-		(click)="filterActive=!filterActive" 
+		(click)="changeState()" 
 		[ngClass]="{'floating-button': filterActive}">
 	</app-filter-button>
 	<app-legend *ngIf="showLegend"></app-legend>
