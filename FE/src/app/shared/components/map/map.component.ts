@@ -15,7 +15,6 @@ import { DataService } from 'src/app/services/timisoara-points.service';
 import { ApiKeyManager } from '@esri/arcgis-rest-request';
 import { reverseGeocode } from '@esri/arcgis-rest-geocoding';
 import { GeocodingControl } from '@maptiler/geocoding-control/maplibregl';
-import { GeocodingControl } from '@maptiler/geocoding-control/maplibregl';
 import { ServerApi } from 'src/app/services/server.service';
 import { DrawerEvenimentComponent } from 'src/app/drawer-eveniment/drawer-eveniment.component';
 import { RenderService } from 'src/app/services/render.service';
@@ -149,7 +148,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.serverService.getAllEvents(date).subscribe((events) => {
 			events.forEach((element: any) => {
 				if (element.type === '1') {
-					// const marker = new maplibregl.Marker({ color: '#fc0000' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
+					const marker = new maplibregl.Marker({ color: '#fc0000' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
 					marker.getElement().addEventListener('click', () => {
 						this.isMarkerClicked = true;
 						this.renderService.setBoolean(this.isMarkerClicked);
