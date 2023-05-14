@@ -4,11 +4,15 @@
 	<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
 		<div class="example-box" *ngFor="let point of path.points; index as i" cdkDrag>
 			<i class="material-icons drag" cdkDragHandle>reorder</i>
-			<p> {{point.address.Address}} </p>
+			<p> {{point.address?.Address}} </p>
+			<p *ngIf="!point.address?.Address">Unknown</p>
 			<button class="delete-icon" (click)="deletePoint(point)" mat-icon-button>
 				<i class="material-icons">delete_outline</i>
 			</button>
 		</div>
+	</div>
+	<div *ngIf="path.points.length == 0">
+		<p> No points selected.</p>
 	</div>
 	<button (click)="save()" class="btn">Show Route</button>
 </div>
