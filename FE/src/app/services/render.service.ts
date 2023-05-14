@@ -8,6 +8,7 @@ export class RenderService {
 	private showAddEventForm: boolean = false;
 	private showAddEvent: boolean = false;
     private showFilter: boolean = false;
+    private showNavigate: boolean = false;
 
 	constructor() {}
 
@@ -41,5 +42,13 @@ export class RenderService {
 
     setBooleanShowFilter(value: boolean) {
         this.showFilter = value;
+    }
+
+    getBooleanShowNavigate() {
+        return this.showNavigate;
+    }
+
+    setBooleanShowNavigate(value: boolean) {
+        this.showNavigate = value;
     }
 }
