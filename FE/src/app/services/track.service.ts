@@ -49,4 +49,8 @@ export class TrackService {
 	trackPopupState(): Observable<boolean> {
 		return this.trackPopup.asObservable();
 	}
+
+	setTrack(track: any) {
+		this.track = track;
+	}
 }
