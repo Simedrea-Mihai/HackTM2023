@@ -31,6 +31,7 @@
     "font-awesome": "^4.7.0",
     "maplibre-gl": "^2.4.0",
     "rxjs": "~7.8.0",
+    "speak-tts": "^2.0.8",
     "tslib": "^2.3.0",
     "turf": "^3.0.14",
     "zone.js": "~0.12.0"

@@ -2,12 +2,13 @@
 	<div class="drawer animate__animated animate__slideInUp animate__fadeOut">
 		<div class="line" (click)="close()"></div>
 		<p class="eventName">{{ name }}</p>
-		<p class="eventType">{{ type == '1' ? 'Eveniment oficial' : type == '2' ? 'Eveniment neoficial' : '' }}</p>
+		<p class="eventType">{{ type == '1' ? 'Official event' : type == '2' ? 'Unofficial event' : '' }}</p>
 		<p class="date">{{ date }}</p>
 		<p (click)="toggleDrawer()" class="description" [ngClass]="{ mini: isOpen == false }">
 			{{ description }}
 		</p>
 		<a class="link" [ngClass]="{ nope: type != '1' && type != '2' }">Event link</a>
 		<button class="btn" (click)="test()">Add to track</button>
+		<button class="btn" (click)="start()">eu vorbesc</button>
 	</div>
 </div>
