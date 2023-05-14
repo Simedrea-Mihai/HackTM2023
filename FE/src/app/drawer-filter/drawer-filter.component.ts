@@ -1,14 +1,15 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FilterService } from '../services/filter.service';
 import { Filter } from '../Models/filter.model';
+import { RenderService } from '../services/render.service';
 
 @Component({
 	selector: 'app-drawer-filter',
 	templateUrl: './drawer-filter.component.html',
 	styleUrls: ['./drawer-filter.component.scss']
 })
-export class DrawerFilterComponent {
+export class DrawerFilterComponent implements OnInit {
 	@ViewChild('starDate') starDateRef!: ElementRef;
 	currentDate = new Date();
 	sevenDaysFromCurrentTime = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate() + 7);
@@ -21,13 +22,23 @@ export class DrawerFilterComponent {
 
 	filterService = inject(FilterService);
 
-	constructor() {
+	constructor(private readonly service: RenderService) {
 		this.filterForm = new FormGroup({
 			official: this.official,
 			unofficial: this.unofficial,
 			startDate: this.startDate,
 			endDate: this.endDate
 		});
+	}
+
+	ngOnInit(): void {
+		this.filterForm.valueChanges.subscribe((value) => {
+			this.onSubmit();
+		});
+	}
+
+	close(): void {
+		this.service.setBooleanShowFilter(false);
 	}
 
 	onSubmit(): void {

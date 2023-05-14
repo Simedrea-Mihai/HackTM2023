@@ -1,10 +1,9 @@
 <div class="App">
 	<app-map></app-map>
-	<app-filter-button *ngIf="showLegend"></app-filter-button>
+	<app-filter-button *ngIf="showLegend" (click)="changeState()" [ngClass]="{ 'floating-button': filterActive }"> </app-filter-button>
 	<app-legend *ngIf="showLegend"></app-legend>
-	<!-- <app-drawer-filter></app-drawer-filter> -->
-	<!-- <app-drawer-locations [location]="location"></app-drawer-locations> -->
+	<app-drawer-filter *ngIf="filterActive"></app-drawer-filter>
 	<!-- <app-drawer-add-event [location]="location"></app-drawer-add-event> -->
-
+	<app-navigate-drawer></app-navigate-drawer>
 	<app-bottom-nav></app-bottom-nav>
 </div>

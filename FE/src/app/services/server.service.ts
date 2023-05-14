@@ -13,4 +13,9 @@ export class ServerApi {
 		const body = { start: startDate, end: endate };
 		return this.http.post(url, body);
 	}
+
+	getAllMonuments(): Observable<any> {
+		const url = 'http://localhost:5000/allhistoric';
+		return this.http.get(url);
+	}
 }

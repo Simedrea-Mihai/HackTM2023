@@ -7,7 +7,8 @@ import {
 	OnDestroy,
 	ComponentFactoryResolver,
 	ViewContainerRef,
-	inject
+	inject,
+	SimpleChange
 } from '@angular/core';
 import maplibregl, { Map, NavigationControl, Marker, Popup } from 'maplibre-gl';
 import * as turf from '@turf/turf';
@@ -19,6 +20,8 @@ import { ServerApi } from 'src/app/services/server.service';
 import { FilterService } from 'src/app/services/filter.service';
 import { DrawerEvenimentComponent } from 'src/app/drawer-eveniment/drawer-eveniment.component';
 import { RenderService } from 'src/app/services/render.service';
+import { solveRoute } from '@esri/arcgis-rest-routing';
+import { TrackService } from 'src/app/services/track.service';
 
 @Component({
 	selector: 'app-map',
@@ -33,6 +36,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	dataService = inject(DataService);
 	serverService = inject(ServerApi);
 	filterService = inject(FilterService);
+	trackService = inject(TrackService);
+	walkingMan: any;
 
 	markers: Marker[] = [];
 
@@ -47,6 +52,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	lon = '';
 
 	showAddEvent = false;
+	showAddEventForm = false;
+	newMarker: Marker | undefined;
 
 	@ViewChild('map')
 	private mapContainer!: ElementRef<HTMLElement>;
@@ -54,6 +61,19 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	constructor(private cfr: ComponentFactoryResolver, private vcr: ViewContainerRef, private renderService: RenderService) {}
 
 	ngOnInit(): void {}
+
+	ngDoCheck(): void {
+		this.showAddEventForm = this.renderService.getBooleanShowAddEventForm();
+		this.showAddEvent = this.renderService.getBooleanShowAddEvent();
+
+		if (this.showAddEvent === false && this.newMarker !== undefined) {
+			this.newMarker.remove();
+		}
+
+		if (this.walkingMan !== undefined) {
+			console.log(this.walkingMan.getLngLat());
+		}
+	}
 
 	ngAfterViewInit() {
 		const componentFactory = this.cfr.resolveComponentFactory(DrawerEvenimentComponent);
@@ -103,15 +123,31 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					});
 
 					const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V';
+					let authentication: any;
 					this.map.on('click', (e: any) => {
-						//this.showAddEvent = true;
 						const coords = e.lngLat;
 						const authentication = ApiKeyManager.fromKey(apiKey);
+
+						if (this.renderService.getBoolean() === false) {
+							this.showAddEvent = true;
+							this.renderService.setBooleanShowAddEvent(true);
+							console.log(e);
+
+							if (this.newMarker !== undefined) {
+								this.newMarker.remove();
+							}
+
+							// this.location =
+							this.newMarker = new Marker({ color: '#A020F0' }).setLngLat([coords.toArray()[0], coords.toArray()[1]]).addTo(this.map);
+							this.lat = coords.toArray()[1].toString();
+							this.lon = coords.toArray()[0].toString();
+						}
 
 						reverseGeocode([coords.toArray()[0], coords.toArray()[1]], {
 							authentication
 						}).then((result) => {
-							console.log(result);
+							this.location = result.address['Address'];
+							this.trackService.setLastPoint(result);
 						});
 					});
 
@@ -126,6 +162,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						},
 						trackUserLocation: true
 					});
+
+					const popup = new Popup().setHTML('<div>Hello!</div>');
+
+					this.walkingMan = new Marker({ color: '#EFCC00', draggable: true })
+						.setLngLat([longitude, latitude])
+						.setPopup(popup)
+						.addTo(this.map);
+					this.walkingMan.togglePopup();
 					// Add the control to the map.
 					this.map.addControl(geolocate, 'bottom-left');
 					// Set an event listener that fires
@@ -135,12 +179,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					});
 					this.addGeolocationBttton();
 
+					// solveRoute({
+					// 	stops: [startCoords, endCoords],
+					// 	endpoint: "https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve",
+					// 	authentication
+					// }).then((response) => {
+					// 	this.map.getSource("route").setData(response.routes.geoJson);
+
 					this.map?.addControl(new NavigationControl({}), 'bottom-left');
 
 					this.displayAllEvents();
-
-					this.lat = latitude.toString();
-					this.lon = longitude.toString();
 
 					// new Marker({ color: '#FF0000' }).setLngLat([longitude, latitude]).addTo(this.map);
 
@@ -168,45 +216,75 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 			}
 
 			console.log(filter);
-			this.serverService.getAllEvents(filter.startDate, filter.endDate).subscribe((events) => {
-				events.forEach((element: any) => {
-					if (element.type === '1' && filter.official == true) {
-						const marker = new maplibregl.Marker({ color: '#fc0000' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
-						this.markers.push(marker);
-						this.allMarkers.push(element);
-						marker.getElement().addEventListener('click', () => {
-							const data = this.getClosestMarker(this.allMarkers, element);
-							this.name = data.name;
-							this.type = data.type;
-							this.description = data.description;
-							this.link = data.link;
-							this.date = data.date;
+			if (filter.startDate) {
+				this.serverService.getAllEvents(filter.startDate, filter.endDate).subscribe((events) => {
+					events.forEach((element: any) => {
+						if (element.type === '1' && filter.official == true) {
+							const marker = new maplibregl.Marker({ color: '#fc0000' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
+							this.markers.push(marker);
+							this.allMarkers.push(element);
+							marker.getElement().addEventListener('click', () => {
+								const data = this.getClosestMarker(this.allMarkers, element);
+								this.name = data.name;
+								this.type = data.type;
+								this.description = data.description;
+								this.link = data.link;
+								this.date = data.date;
 
-							this.isMarkerClicked = true;
-							this.renderService.setBoolean(this.isMarkerClicked);
-						});
-					} else if (element.type == 2 && filter.unofficial == true) {
-						const marker = new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
-						this.allMarkers.push(element);
-						this.markers.push(marker);
+								if (!this.showAddEvent) {
+									this.isMarkerClicked = true;
+									this.renderService.setBoolean(this.isMarkerClicked);
+								}
+							});
+						} else if (element.type == 2 && filter.unofficial == true) {
+							const marker = new maplibregl.Marker().setLngLat([element.longitude, element.latitude]).addTo(this.map);
+							this.allMarkers.push(element);
+							this.markers.push(marker);
 
-						marker.getElement().addEventListener('click', () => {
-							const data = this.getClosestMarker(this.allMarkers, element);
-							this.name = data.name;
-							this.type = data.type;
-							this.description = data.description;
-							this.link = data.link;
-							this.date = data.date;
+							marker.getElement().addEventListener('click', () => {
+								const data = this.getClosestMarker(this.allMarkers, element);
+								this.name = data.name;
+								this.type = data.type;
+								this.description = data.description;
+								this.link = data.link;
+								this.date = data.date;
 
-							this.isMarkerClicked = true;
-							this.renderService.setBoolean(this.isMarkerClicked);
-						});
-					} else if (element.type == 3) {
-						const marker = new maplibregl.Marker({ color: '#308efd' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
-						this.markers.push(marker);
-					}
+								if (!this.showAddEvent) {
+									this.isMarkerClicked = true;
+									this.renderService.setBoolean(this.isMarkerClicked);
+								}
+							});
+						} else if (element.type == 3) {
+							const marker = new maplibregl.Marker({ color: '#308efd' }).setLngLat([element.longitude, element.latitude]).addTo(this.map);
+							this.markers.push(marker);
+						}
+					});
 				});
-			});
+			} else {
+				this.serverService.getAllMonuments().subscribe((monuments) => {
+					monuments.forEach((element: any) => {
+						const marker = new maplibregl.Marker({ color: '#808080', scale: 0.8 })
+							.setLngLat([element.longitude, element.latitude])
+							.addTo(this.map);
+						this.allMarkers.push(element);
+						this.markers.push(marker);
+
+						marker.getElement().addEventListener('click', () => {
+							const data = this.getClosestMarker(this.allMarkers, element);
+							this.name = data.name;
+							this.type = data.type;
+							this.description = data.description;
+							this.link = data.link;
+							this.date = data.date;
+
+							if (!this.showAddEvent) {
+								this.isMarkerClicked = true;
+								this.renderService.setBoolean(this.isMarkerClicked);
+							}
+						});
+					});
+				});
+			}
 		});
 	}
 

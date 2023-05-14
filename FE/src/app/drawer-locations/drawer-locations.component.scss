@@ -6,6 +6,10 @@
   border: none;
   font-weight: 600;
 }
+.btn-2 {
+  background-color: white;
+  color: #9F54FF;
+}
 .drawer{
   background-color: white;
   display: flex;
@@ -22,7 +26,7 @@
 }
 .line{
   width: 32px;
-  height: 3px;
+  height: 5px;
   border-radius: 2px;
   margin-bottom: 10px;
   background-color: #666666;

@@ -1,0 +1,14 @@
+<div	*ngIf="showComponent"
+	class="drawer animate__animated animate__slideInUp animate__fadeOut">
+	<div class="line"></div>
+	<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+		<div class="example-box" *ngFor="let point of path.points; index as i" cdkDrag>
+			<i class="material-icons drag" cdkDragHandle>reorder</i>
+			<p> {{point}} </p>
+			<button class="delete-icon" mat-icon-button>
+				<i class="material-icons" (click)="delete(i)">delete_outline</i>
+			</button>
+		</div>
+	</div>
+	<button (click)="save()" class="btn">Show Route</button>
+</div>

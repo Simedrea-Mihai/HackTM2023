@@ -7,11 +7,24 @@
   align-items: center;
 }
 .bottomNav>*{
+  padding-bottom: 15gpx;
   border: none;
   background-color: white;
-  width:50px
+  width:40px;
+}
+.eee{
+  filter: invert(57%) sepia(76%) saturate(5889%) hue-rotate(243deg) brightness(100%) contrast(102%);
 }
 
 .highlighted-button:hover {
-  background-color: gold;    /* Change the background color on hover */
+  background-color: gold;
+}
+.aaa{
+  position: relative;
+  transform: scale(1.1);
+  left: 6px;
+}
+
+.asdfasf {
+  color: #9F54FF;
 }

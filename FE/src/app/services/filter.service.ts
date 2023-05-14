@@ -15,7 +15,7 @@ export class FilterService {
 		official: true,
 		unofficial: true,
 		startDate: this.datePipe.transform(this.currentDate, 'yyyy-MM-dd'),
-		endDate: this.datePipe.transform(this.currentDate, 'yyyy-MM-dd')
+		endDate: this.datePipe.transform(this.sevenDaysFromCurrentTime, 'yyyy-MM-dd')
 	});
 
 	emitEvent(eventName: Filter) {
