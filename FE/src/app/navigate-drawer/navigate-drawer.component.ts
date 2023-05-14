@@ -8,7 +8,7 @@ import { Path } from '../drawer-locations/drawer-locations.component';
 	styleUrls: ['./navigate-drawer.component.scss']
 })
 export class NavigateDrawerComponent implements OnInit {
-	path: Path = {
+	path: any = {
 		points: []
 	};
 
@@ -62,5 +62,11 @@ export class NavigateDrawerComponent implements OnInit {
 	}
 	save() {
 		console.log(this.movies);
+	}
+
+	deletePoint(point: any) {
+		this.trackService.removePoint(point);
+		this.path = this.trackService.getTrack();
+		console.log(this.path);
 	}
 }
