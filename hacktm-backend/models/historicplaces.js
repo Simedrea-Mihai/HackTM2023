@@ -16,6 +16,11 @@ class HistoricPlaces {
   async GetAllHistoricalPlaces() {
     return await this.HModel.find();
   }
+  async Del() {
+    return await this.HModel.deleteMany({
+      $and: [{ longitude: 21.22571 }, { latitude: 45.75372 }],
+    });
+  }
 }
 
 module.exports = HistoricPlaces;

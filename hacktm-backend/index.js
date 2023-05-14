@@ -10,8 +10,6 @@ const mongoose = require("mongoose");
 mongoose.connect(config.get("connkey")).then(async () => {
   const { evrouter } = require("./controller/eventscontroller");
   const { hrouter } = require("./controller/historicplacescontroller");
-  const { populateheritage } = require("./populatedb");
-  // populateheritage();
   app.use("", evrouter);
   app.use("", hrouter);
   app.listen(5000, () => {
