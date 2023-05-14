@@ -18,6 +18,7 @@ import { NavigateDrawerComponent } from './navigate-drawer/navigate-drawer.compo
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { SpeechComponent } from './shared/components/speech/speech.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -29,7 +30,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 		DrawerLocationsComponent,
 		DrawerAddEventComponent,
 		BottomNavComponent,
-		NavigateDrawerComponent
+		NavigateDrawerComponent,
+  SpeechComponent
 	],
 	imports: [
 		HttpClientModule,
