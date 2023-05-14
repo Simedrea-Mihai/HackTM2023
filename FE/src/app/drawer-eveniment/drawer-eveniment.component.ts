@@ -32,6 +32,7 @@ export class DrawerEvenimentComponent implements OnInit {
 		console.log('btn pressed test');
 		this.trackService.addPoint();
 		console.log('btn pressed test');
+		this.renderService.setBoolean(false);
 	}
 
 	close(): void {

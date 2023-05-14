@@ -37,6 +37,7 @@ const poppulatedb = () => {
       index++;
     }
     hour = reverseString(hour);
+
     const geolocation = await NodeGeoCoder(options).geocode({
       address: `${e.address[0] + " Timisoara"}`,
     });
