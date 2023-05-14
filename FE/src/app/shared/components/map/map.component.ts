@@ -19,6 +19,7 @@ import { ServerApi } from 'src/app/services/server.service';
 import { FilterService } from 'src/app/services/filter.service';
 import { DrawerEvenimentComponent } from 'src/app/drawer-eveniment/drawer-eveniment.component';
 import { RenderService } from 'src/app/services/render.service';
+import { solveRoute } from '@esri/arcgis-rest-routing';
 
 @Component({
 	selector: 'app-map',
@@ -114,9 +115,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					});
 
 					const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V';
+					let authentication: any;
 					this.map.on('click', (e: any) => {
 						const coords = e.lngLat;
-						const authentication = ApiKeyManager.fromKey(apiKey);
+						authentication = ApiKeyManager.fromKey(apiKey);
 						
 						if (this.renderService.getBoolean() === false) {
 							this.showAddEvent = true;
@@ -159,6 +161,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						console.log('A geolocate event has occurred.');
 					});
 					this.addGeolocationBttton();
+
+					
+					// solveRoute({
+					// 	stops: [startCoords, endCoords],
+					// 	endpoint: "https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve",
+					// 	authentication
+					// }).then((response) => {
+					// 	this.map.getSource("route").setData(response.routes.geoJson);
 
 					this.map?.addControl(new NavigationControl({}), 'bottom-left');
 
