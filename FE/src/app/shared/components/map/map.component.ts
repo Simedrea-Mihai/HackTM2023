@@ -7,7 +7,8 @@ import {
 	OnDestroy,
 	ComponentFactoryResolver,
 	ViewContainerRef,
-	inject
+	inject,
+	SimpleChange
 } from '@angular/core';
 import maplibregl, { Map, NavigationControl, Marker, Popup } from 'maplibre-gl';
 import * as turf from '@turf/turf';
@@ -34,6 +35,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	dataService = inject(DataService);
 	serverService = inject(ServerApi);
 	filterService = inject(FilterService);
+	walkingMan: any;
 
 	markers: Marker[] = [];
 
@@ -64,6 +66,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
 		if (this.showAddEvent === false && this.newMarker !== undefined) {
 			this.newMarker.remove();
+		}
+
+		if (this.walkingMan !== undefined) {
+			console.log(this.walkingMan.getLngLat());
 		}
 	}
 
@@ -153,6 +159,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						},
 						trackUserLocation: true
 					});
+
+					const popup = new Popup().setHTML('<div>Hello!</div>');
+
+					this.walkingMan = new Marker({ color: '#EFCC00' , draggable: true}).setLngLat([longitude, latitude]).setPopup(popup).addTo(this.map);
+					this.walkingMan.togglePopup();
 					// Add the control to the map.
 					this.map.addControl(geolocate, 'bottom-left');
 					// Set an event listener that fires
