@@ -7,8 +7,8 @@
 		<p (click)="toggleDrawer()" class="description" [ngClass]="{ mini: isOpen == false }">
 			{{ description }}
 		</p>
-		<a class="link" [href]="link" target="_blank">Event link</a>
+		<a class="link" [ngClass]="{ nope: type != '1' && type != '2' }">Event link</a>
 		<button class="btn" (click)="test()">Add to track</button>
-		<button class="btn" (click)="start()">eu vorbesc</button>
+		<button class="btn vb" (click)="start()">Read Text</button>
 	</div>
 </div>
