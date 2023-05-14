@@ -9,6 +9,7 @@ import { DatePipe } from '@angular/common';
 export class FilterService {
 	datePipe: DatePipe = new DatePipe('en-US');
 	currentDate = new Date();
+	filter: any;
 
 	sevenDaysFromCurrentTime = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate() + 7);
 	private eventSubject = new BehaviorSubject<Filter>({
@@ -19,10 +20,15 @@ export class FilterService {
 	});
 
 	emitEvent(eventName: Filter) {
+		this.filter = eventName;
 		this.eventSubject.next(eventName);
 	}
 
 	getEvent(): Observable<Filter> {
 		return this.eventSubject.asObservable();
+	}
+
+	getFilter(): Filter {
+		return this.filter;
 	}
 }

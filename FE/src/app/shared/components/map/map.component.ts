@@ -108,9 +108,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 			}
 		});
 
-		this.mySubscription = interval(2000).subscribe((x =>{
+		this.mySubscription = interval(2000).subscribe((x) => {
 			this.emit();
-		}));
+		});
 	}
 
 	emit() {
@@ -119,30 +119,25 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 			this.newDataPoints = data;
 			console.log(this.markers);
 			console.log(this.allMarkers);
-			let arrFilteredMarkers:any[] = [];
+			let arrFilteredMarkers: any[] = [];
 
 			const filteredArray = this.allMarkers.filter((marker, index) => {
-				let matchingMarker = this.newDataPoints.find(dataPoint => dataPoint._id === marker._id);
+				let matchingMarker = this.newDataPoints.find((dataPoint) => dataPoint._id === marker._id);
 				if (matchingMarker !== undefined) {
 					const m = this.markers[index];
 					let markerElement = this.markers[index]?.getElement();
-					markerElement
-						.querySelectorAll('svg g[fill="' + this.markers[index]._color + '"]')[0]
-						?.setAttribute("fill", 'red');
+					markerElement.querySelectorAll('svg g[fill="' + this.markers[index]._color + '"]')[0]?.setAttribute('fill', 'red');
 					marker._color = 'red';
 					return m;
 				}
 				return matchingMarker !== undefined;
-			  });
+			});
 
-			
-			  
 			console.log(filteredArray);
 
 			// arrFilteredMarkers.map(marker => {
 			// 	marker.remove();
 			// });
-
 		});
 	}
 
@@ -299,7 +294,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						.addTo(this.map);
 					this.walkingMan.togglePopup();
 
-
 					// Add the control to the map.
 					this.map.addControl(geolocate, 'bottom-left');
 					// Set an event listener that fires
@@ -406,8 +400,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 				});
 			}
 
+			console.log('1111111111111111111111111111111111111111111111111111111111111111111111111');
 			console.log(filter);
 			if (filter.startDate) {
+				console.log('2222222222222222222222222222222222222222222222222222222222222222222222222');
 				this.serverService.getAllEvents(filter.startDate, filter.endDate).subscribe((events) => {
 					events.forEach((element: any) => {
 						if (element.type === '1' && filter.official == true) {
