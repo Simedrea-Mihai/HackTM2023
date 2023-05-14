@@ -29,6 +29,7 @@ export class DrawerLocationsComponent {
 		console.log('btn pressed addToTrack');
 		this.trackService.addPoint();
 		console.log('btn pressed addToTrack');
+		this.service.setBooleanShowAddEvent(this.isComponentInView);
 	}
 }
 
