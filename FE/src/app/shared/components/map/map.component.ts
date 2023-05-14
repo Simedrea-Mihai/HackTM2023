@@ -420,7 +420,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 								this.type = data.type;
 								this.description = data.description;
 								this.link = data.link;
-								this.date = data.date;
+								this.date = data.startdate;
 
 								if (!this.showAddEvent) {
 									this.isMarkerClicked = true;
@@ -438,7 +438,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 								this.type = data.type;
 								this.description = data.description;
 								this.link = data.link;
-								this.date = data.date;
+								this.date = data.startdate;
 
 								if (!this.showAddEvent) {
 									this.isMarkerClicked = true;
@@ -466,7 +466,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 							this.type = data.type;
 							this.description = data.description;
 							this.link = data.link;
-							this.date = data.date;
+							this.date = data.startdate;
 
 							if (!this.showAddEvent) {
 								this.isMarkerClicked = true;

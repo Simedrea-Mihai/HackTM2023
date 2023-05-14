@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { RenderService } from '../services/render.service';
-import { Point } from '../drawer-locations/drawer-locations.component';
 import { TrackService } from '../services/track.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
 	selector: 'app-drawer-eveniment',
@@ -20,7 +20,7 @@ export class DrawerEvenimentComponent implements OnInit {
 	isOpen = false;
 	isComponentInView = false;
 
-	constructor(private readonly renderService: RenderService) {}
+	constructor(private readonly renderService: RenderService, private datePipe: DatePipe) {}
 
 	ngOnInit(): void {}
 

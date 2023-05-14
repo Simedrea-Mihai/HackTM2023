@@ -18,6 +18,7 @@ import { NavigateDrawerComponent } from './navigate-drawer/navigate-drawer.compo
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { DatePipe } from '@angular/common';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -43,7 +44,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 		MatButtonModule,
 		MatCheckboxModule
 	],
-	providers: [],
+	providers: [DatePipe],
 	bootstrap: [AppComponent]
 })
 export class AppModule {}
