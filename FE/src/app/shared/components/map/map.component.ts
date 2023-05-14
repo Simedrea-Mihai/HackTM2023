@@ -132,7 +132,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 							this.showAddEvent = true;
 							this.renderService.setBooleanShowAddEvent(true);
 							console.log(e);
-							this.trackService.setLastPoint(e);
 
 							if (this.newMarker !== undefined) {
 								this.newMarker.remove();
@@ -148,6 +147,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 							authentication
 						}).then((result) => {
 							this.location = result.address['Address'];
+							this.trackService.setLastPoint(this.location);
 						});
 					});
 

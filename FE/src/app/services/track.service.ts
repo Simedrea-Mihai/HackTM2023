@@ -11,7 +11,7 @@ export class TrackService {
 	track: Path = { points: [] };
 	lastPoint: any = undefined;
 
-	setLastPoint(value: Point) {
+	setLastPoint(value: any) {
 		this.lastPoint = value;
 	}
 
