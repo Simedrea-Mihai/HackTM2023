@@ -4,6 +4,7 @@ import { TrackService } from '../services/track.service';
 import { Path } from '../drawer-locations/drawer-locations.component';
 import { RenderService } from '../services/render.service';
 import { BestRoute } from '../services/best-route.service';
+import { ServerApi } from '../services/server.service';
 @Component({
 	selector: 'app-navigate-drawer',
 	templateUrl: './navigate-drawer.component.html',
@@ -11,7 +12,7 @@ import { BestRoute } from '../services/best-route.service';
 })
 export class NavigateDrawerComponent implements OnInit {
 	bestRoute = inject(BestRoute);
-	constructor(private readonly service: RenderService) {}
+	constructor(private readonly service: RenderService, private readonly coolService: ServerApi) {}
 
 	path: any = {
 		points: []
@@ -35,7 +36,7 @@ export class NavigateDrawerComponent implements OnInit {
 	}
 
 	save() {
-		console.log(this.path);
+		this.coolService.setAllCoords(this.path);
 		this.bestRoute.search(true);
 	}
 

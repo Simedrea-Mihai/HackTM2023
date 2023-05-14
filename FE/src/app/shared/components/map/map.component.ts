@@ -38,6 +38,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	filterService = inject(FilterService);
 	trackService = inject(TrackService);
 	walkingMan: any;
+	theKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V';
 
 	markers: Marker[] = [];
 
@@ -54,6 +55,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	showAddEvent = false;
 	showAddEventForm = false;
 	newMarker: Marker | undefined;
+	coords: any;
 
 	@ViewChild('map')
 	private mapContainer!: ElementRef<HTMLElement>;
@@ -70,8 +72,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 			this.newMarker.remove();
 		}
 
+		const allCoords = this.serverService.getAllCoords();
+		this.coords = allCoords;
+
+		if (allCoords !== undefined) {
+			console.log(allCoords?.points?.map((point: any) => [point.location.x, point.location.y]));
+		}
+
 		if (this.walkingMan !== undefined) {
-			console.log(this.walkingMan.getLngLat());
 		}
 	}
 
@@ -120,18 +128,31 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 								'fill-opacity': 0.4
 							}
 						});
+
+						this.addCircleLayers();
+						this.addRouteLayer();
 					});
+
+					let currentStep = 'start';
+					let startCoords: any, endCoords: any;
 
 					const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V';
 					let authentication: any;
 					this.map.on('click', (e: any) => {
+						const coordinates = e.lngLat.toArray();
+						console.log(coordinates);
+						const point = {
+							type: 'Point',
+							coordinates
+						};
+
 						const coords = e.lngLat;
 						const authentication = ApiKeyManager.fromKey(apiKey);
 
 						if (this.renderService.getBoolean() === false) {
 							this.showAddEvent = true;
 							this.renderService.setBooleanShowAddEvent(true);
-							console.log(e);
+							// console.log(e);
 
 							if (this.newMarker !== undefined) {
 								this.newMarker.remove();
@@ -149,6 +170,27 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 							this.location = result.address['Address'];
 							this.trackService.setLastPoint(result);
 						});
+
+						if (currentStep === 'start') {
+							this.map.getSource('start').setData(point);
+							startCoords = coordinates;
+							const empty = {
+								type: 'FeatureCollection',
+								features: []
+							};
+							this.map.getSource('end').setData(empty);
+							this.map.getSource('route').setData(empty);
+							endCoords = null;
+							currentStep = 'end';
+						} else {
+							this.map.getSource('end').setData(point);
+							endCoords = coordinates;
+							currentStep = 'start';
+						}
+
+
+						if (startCoords && endCoords) {
+						  }
 					});
 
 					componentRef.changeDetectorRef.detectChanges();
@@ -201,6 +243,67 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 		} else {
 			console.log('Geolocation is not supported by this browser.');
 		}
+	}
+
+	addCircleLayers(): void {
+		this.map?.addSource('start', {
+			type: 'geojson',
+			data: {
+				type: 'FeatureCollection',
+				features: []
+			}
+		});
+		this.map?.addSource('end', {
+			type: 'geojson',
+			data: {
+				type: 'FeatureCollection',
+				features: []
+			}
+		});
+
+		// this.map?.addLayer({
+		// 	id: 'start-circle',
+		// 	type: 'circle',
+		// 	source: 'start',
+		// 	paint: {
+		// 		'circle-radius': 6,
+		// 		'circle-color': 'white',
+		// 		'circle-stroke-color': 'black',
+		// 		'circle-stroke-width': 2
+		// 	}
+		// });
+
+		// this.map?.addLayer({
+		// 	id: 'end-circle',
+		// 	type: 'circle',
+		// 	source: 'end',
+		// 	paint: {
+		// 		'circle-radius': 7,
+		// 		'circle-color': 'black'
+		// 	}
+		// });
+	}
+
+	addRouteLayer(): void {
+		this.map.addSource('route', {
+			type: 'geojson',
+			data: {
+				type: 'FeatureCollection',
+				features: []
+			}
+		});
+
+		this.map.addLayer({
+			id: 'route-line',
+			type: 'line',
+			source: 'route',
+
+			paint: {
+				'line-color': 'hsl(205, 100%, 50%)',
+				'line-width': 4,
+				'line-opacity': 0.6
+			}
+		});
 	}
 
 	ngOnDestroy() {
@@ -287,6 +390,24 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 			}
 		});
 	}
+
+	updateRoute(allCoords: any): void {
+		const authentication = ApiKeyManager.fromKey(this.theKey);
+
+
+		solveRoute({
+			stops: allCoords.points.map((point: any) => [point.location.x, point.location.y]),
+			endpoint: 'https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve',
+			authentication
+		}).then((response) => {
+			console.log(response);
+			this.map.getSource('route').setData(response.routes.geoJson);
+		});
+	}
+
+	update(): void {
+		this.updateRoute(this.coords);
+	}	
 
 	addCurrentLocationOnMap(): void {}
 
