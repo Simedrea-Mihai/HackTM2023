@@ -3,13 +3,14 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { TrackService } from '../services/track.service';
 import { Path } from '../drawer-locations/drawer-locations.component';
 import { RenderService } from '../services/render.service';
+import { ServerApi } from '../services/server.service';
 @Component({
 	selector: 'app-navigate-drawer',
 	templateUrl: './navigate-drawer.component.html',
 	styleUrls: ['./navigate-drawer.component.scss']
 })
 export class NavigateDrawerComponent implements OnInit {
-	constructor(private readonly service: RenderService) {}
+	constructor(private readonly service: RenderService, private readonly coolService: ServerApi) {}
 
 	path: any = {
 		points: []
@@ -33,7 +34,7 @@ export class NavigateDrawerComponent implements OnInit {
 	}
 
 	save() {
-		console.log(this.path);
+		this.coolService.setAllCoords(this.path);
 	}
 
 	close() {
