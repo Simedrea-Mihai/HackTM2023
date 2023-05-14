@@ -1,13 +1,15 @@
 .bottomNav{
-  width: 100vw;
+  width: 90vw;
   background-color: white;
   height: 80px;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  position: fixed;
+  bottom: 0;
+  height: 8 0px;
 }
 .bottomNav>*{
-  padding-bottom: 15gpx;
   border: none;
   background-color: white;
   width:40px;
