@@ -22,8 +22,8 @@ import { DrawerEvenimentComponent } from 'src/app/drawer-eveniment/drawer-evenim
 import { RenderService } from 'src/app/services/render.service';
 import { solveRoute } from '@esri/arcgis-rest-routing';
 import { TrackService } from 'src/app/services/track.service';
+import { Observable, delay, interval } from 'rxjs';
 import { BestRoute } from 'src/app/services/best-route.service';
-import { delay } from 'rxjs';
 
 @Component({
 	selector: 'app-map',
@@ -35,6 +35,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	allMarkers: any[] = [];
 	trackedMarkers: any[] = [];
 	isMarkerClicked = false;
+	newDataPoints: any[] = [];
 
 	dataService = inject(DataService);
 	serverService = inject(ServerApi);
@@ -63,6 +64,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	@ViewChild('map')
 	private mapContainer!: ElementRef<HTMLElement>;
+	private mySubscription: any;
 
 	constructor(private cfr: ComponentFactoryResolver, private vcr: ViewContainerRef, private renderService: RenderService) {}
 
@@ -105,12 +107,48 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 				this.updateRoute(a2);
 			}
 		});
+
+		this.mySubscription = interval(2000).subscribe((x =>{
+			this.emit();
+		}));
+	}
+
+	emit() {
+		const coord = this.walkingMan.getLngLat();
+		this.serverService.getAllProximityMonuments(coord.lng.toString(), coord.lat.toString()).subscribe((data) => {
+			this.newDataPoints = data;
+			console.log(this.markers);
+			console.log(this.allMarkers);
+			let arrFilteredMarkers:any[] = [];
+
+			const filteredArray = this.allMarkers.filter((marker, index) => {
+				let matchingMarker = this.newDataPoints.find(dataPoint => dataPoint._id === marker._id);
+				if (matchingMarker !== undefined) {
+					const m = this.markers[index];
+					let markerElement = this.markers[index]?.getElement();
+					markerElement
+						.querySelectorAll('svg g[fill="' + this.markers[index]._color + '"]')[0]
+						?.setAttribute("fill", 'red');
+					marker._color = 'red';
+					return m;
+				}
+				return matchingMarker !== undefined;
+			  });
+
+			
+			  
+			console.log(filteredArray);
+
+			// arrFilteredMarkers.map(marker => {
+			// 	marker.remove();
+			// });
+
+		});
 	}
 
 	ngDoCheck(): void {
 		this.showAddEventForm = this.renderService.getBooleanShowAddEventForm();
 		this.showAddEvent = this.renderService.getBooleanShowAddEvent();
-
 		if (this.showAddEvent === false && this.newMarker !== undefined) {
 			this.newMarker.remove();
 		}
@@ -119,10 +157,17 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.coords = allCoords;
 
 		if (allCoords !== undefined) {
-			console.log(allCoords?.points?.map((point: any) => [point.location.x, point.location.y]));
+			// console.log(allCoords?.points?.map((point: any) => [point.location.x, point.location.y]));
 		}
 
 		if (this.walkingMan !== undefined) {
+			// setTimeout(() => {
+			// 	this.serverService
+			// 	.getAllProximityMonuments(coord.lng, coord.lat)
+			// 	.subscribe((data) => {
+			// 		console.log(data);
+			// 	});
+			// }, 5000);
 		}
 	}
 
@@ -234,7 +279,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						if (startCoords && endCoords) {
 						}
 					});
-
 					componentRef.changeDetectorRef.detectChanges();
 
 					const gc = new GeocodingControl({ apiKey: '97sou0kVjlk5MxdovBEU' });
@@ -254,6 +298,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						.setPopup(popup)
 						.addTo(this.map);
 					this.walkingMan.togglePopup();
+
+
 					// Add the control to the map.
 					this.map.addControl(geolocate, 'bottom-left');
 					// Set an event listener that fires

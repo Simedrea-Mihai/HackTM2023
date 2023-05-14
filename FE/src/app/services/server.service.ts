@@ -16,6 +16,12 @@ export class ServerApi {
 		return this.http.post(url, body);
 	}
 
+	getAllProximityMonuments(lat: string, lng: string): Observable<any> {
+		const url = 'http://localhost:5000/proximitybuildings';
+		const body = { latitude: lng, longitude: lat };
+		return this.http.post(url, body);
+	}
+
 	getAllMonuments(): Observable<any> {
 		const url = 'http://localhost:5000/allhistoric';
 		return this.http.get(url);
@@ -28,4 +34,6 @@ export class ServerApi {
 	setAllCoords(data: any): void {
 		this.pointsData = data;
 	}
+
+
 }
