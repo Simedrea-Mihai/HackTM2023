@@ -482,8 +482,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	updateRoute(allCoords: any): void {
 		const authentication = ApiKeyManager.fromKey(this.theKey);
 
+		console.log('7777777777777777777777777777777Ks');
+		const a = allCoords.points.map((point: any) => [point.location.x, point.location.y]);
+		console.log(a);
+		a.unshift([this.walkingMan.getLngLat().lng, this.walkingMan.getLngLat().lat]);
+		console.log(a);
+
 		solveRoute({
-			stops: allCoords.points.map((point: any) => [point.location.x, point.location.y]),
+			stops: a,
 			endpoint: 'https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve',
 			authentication
 		}).then((response) => {
