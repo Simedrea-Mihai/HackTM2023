@@ -147,7 +147,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 							authentication
 						}).then((result) => {
 							this.location = result.address['Address'];
-							this.trackService.setLastPoint(this.location);
+							this.trackService.setLastPoint(result);
 						});
 					});
 
