@@ -9,9 +9,7 @@ import { RenderService } from '../services/render.service';
 	styleUrls: ['./navigate-drawer.component.scss']
 })
 export class NavigateDrawerComponent implements OnInit {
-	constructor(private readonly service: RenderService) {
-
-	}
+	constructor(private readonly service: RenderService) {}
 
 	path: any = {
 		points: []
@@ -29,44 +27,13 @@ export class NavigateDrawerComponent implements OnInit {
 		});
 	}
 
-	movies = [
-		{
-			name: 'Episode I - The Phantom Menace'
-		},
-		{
-			name: 'Episode II - Attack of the Clones'
-		},
-		{
-			name: 'Episode III - Revenge of the Sith'
-		},
-		{
-			name: 'Episode IV - A New Hope'
-		},
-		{
-			name: 'Episode V - The Empire Strikes Back'
-		},
-		{
-			name: 'Episode VI - Return of the Jedi'
-		},
-		{
-			name: 'Episode VI - Return of the Jedi'
-		}
-	];
-
-	delete(index: any) {
-		this.movies.splice(index, 1);
-	}
-
-	addNew() {
-		this.movies.push({
-			name: 'new item'
-		});
-	}
 	drop(event: CdkDragDrop<string[]>) {
-		moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
+		moveItemInArray(this.path.points, event.previousIndex, event.currentIndex);
+		this.trackService.setTrack(this.path);
 	}
+
 	save() {
-		console.log(this.movies);
+		console.log(this.path);
 	}
 
 	close() {
