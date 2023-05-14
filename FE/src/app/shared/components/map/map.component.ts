@@ -104,7 +104,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 				const point2 = { location: { x: 0.0001123, y: 0.000041 } };
 				const a2 = { points: [point1, point2] };
 				console.log(a2);
-				this.updateRoute(a2);
+				const empty = {
+					type: 'FeatureCollection',
+					features: []
+				};
+				this.map.getSource('route').setData(empty);
 			}
 		});
 
