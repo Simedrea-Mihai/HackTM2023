@@ -13,7 +13,7 @@ export class NavigateDrawerComponent implements OnInit {
 
 	}
 
-	path: Path = {
+	path: any = {
 		points: []
 	};
 
@@ -71,5 +71,11 @@ export class NavigateDrawerComponent implements OnInit {
 
 	close() {
 		this.showComponent = false;
+	}
+
+	deletePoint(point: any) {
+		this.trackService.removePoint(point);
+		this.path = this.trackService.getTrack();
+		console.log(this.path);
 	}
 }

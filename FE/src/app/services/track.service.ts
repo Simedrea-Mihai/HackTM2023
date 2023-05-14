@@ -17,8 +17,23 @@ export class TrackService {
 
 	addPoint() {
 		console.log('add last point');
+		if (this.track.points.includes(this.lastPoint)) {
+			return;
+		}
 		console.log(this.lastPoint);
 		this.track.points.push(this.lastPoint);
+	}
+
+	removePoint(point: any) {
+		console.log('remove point');
+		console.log(this.track);
+		if (this.track.points.includes(point)) {
+			const index = this.track.points.indexOf(point);
+			if (index !== -1) {
+				this.track.points.splice(index, 1);
+			}
+		}
+		console.log(this.track);
 	}
 
 	getTrack(): Path {
