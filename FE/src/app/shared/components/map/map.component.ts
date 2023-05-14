@@ -23,6 +23,7 @@ import { RenderService } from 'src/app/services/render.service';
 import { solveRoute } from '@esri/arcgis-rest-routing';
 import { TrackService } from 'src/app/services/track.service';
 import { Observable, delay, interval } from 'rxjs';
+import { BestRoute } from 'src/app/services/best-route.service';
 
 @Component({
 	selector: 'app-map',
@@ -32,6 +33,7 @@ import { Observable, delay, interval } from 'rxjs';
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	map: any;
 	allMarkers: any[] = [];
+	trackedMarkers: any[] = [];
 	isMarkerClicked = false;
 	newDataPoints: any[] = [];
 
@@ -39,6 +41,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	serverService = inject(ServerApi);
 	filterService = inject(FilterService);
 	trackService = inject(TrackService);
+	bestRouteService = inject(BestRoute);
 	walkingMan: any;
 	theKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V';
 
@@ -66,6 +69,45 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	constructor(private cfr: ComponentFactoryResolver, private vcr: ViewContainerRef, private renderService: RenderService) {}
 
 	ngOnInit(): void {
+		this.bestRouteService
+			.searchOb()
+			.pipe(delay(500))
+			.subscribe((response) => {
+				console.log('banana');
+				console.log(response);
+				this.updateRoute(this.coords);
+				const track = this.trackService.getTrack();
+				console.log('22222222222222222222222222222222222222222222');
+				console.log(track);
+				track.points.forEach((element: any) => {
+					console.log('------------------------------------');
+					const a = (this.newMarker = new Marker({ color: '#A020F0' }).setLngLat([element.location.x, element.location.y]).addTo(this.map));
+
+					console.log(element);
+					console.log([element.location.x, element.location.y]);
+
+					this.trackedMarkers.push(a);
+				});
+			});
+
+		this.bestRouteService.deleteOb().subscribe((response) => {
+			console.log('emit delete marker for traked -------------------------');
+			console.log(this.trackedMarkers);
+			if (this.trackedMarkers?.length > 0) {
+				this.trackedMarkers.forEach((marker: any) => {
+					marker.remove();
+				});
+				console.log('cords');
+				console.log(this.coords);
+				const point1 = { location: { x: 0.0001, y: 0.00002 } };
+
+				const point2 = { location: { x: 0.0001123, y: 0.000041 } };
+				const a2 = { points: [point1, point2] };
+				console.log(a2);
+				this.updateRoute(a2);
+			}
+		});
+
 		this.mySubscription = interval(2000).subscribe((x =>{
 			this.emit();
 		}));
@@ -450,9 +492,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 		});
 	}
 
-	update(): void {
-		this.updateRoute(this.coords);
-	}
+	// update(): void {
+	// 	this.updateRoute(this.coords);
+	// }
 
 	addCurrentLocationOnMap(): void {}
 
