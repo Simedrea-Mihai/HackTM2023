@@ -79,7 +79,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 				console.log(track);
 				track.points.forEach((element: any) => {
 					console.log('------------------------------------');
-					const a = (this.newMarker = new Marker({ color: '#A020F0' }).setLngLat([element.location.x, element.location.y]).addTo(this.map));
+					const a = new Marker({ color: '#A020F0' }).setLngLat([element.location.x, element.location.y]).addTo(this.map);
 
 					console.log(element);
 					console.log([element.location.x, element.location.y]);
