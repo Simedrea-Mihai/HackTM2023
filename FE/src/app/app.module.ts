@@ -19,6 +19,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DatePipe } from '@angular/common';
+import { SpeechComponent } from './shared/components/speech/speech.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -30,7 +31,8 @@ import { DatePipe } from '@angular/common';
 		DrawerLocationsComponent,
 		DrawerAddEventComponent,
 		BottomNavComponent,
-		NavigateDrawerComponent
+		NavigateDrawerComponent,
+		SpeechComponent
 	],
 	imports: [
 		HttpClientModule,

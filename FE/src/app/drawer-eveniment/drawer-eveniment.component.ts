@@ -2,6 +2,7 @@ import { Component, Input, OnInit, inject } from '@angular/core';
 import { RenderService } from '../services/render.service';
 import { TrackService } from '../services/track.service';
 import { DatePipe } from '@angular/common';
+import { SpeakService } from '../services/speak.service';
 
 @Component({
 	selector: 'app-drawer-eveniment',
@@ -20,7 +21,7 @@ export class DrawerEvenimentComponent implements OnInit {
 	isOpen = false;
 	isComponentInView = false;
 
-	constructor(private readonly renderService: RenderService, private datePipe: DatePipe) {}
+	constructor(private readonly renderService: RenderService, private datePipe: DatePipe, private readonly service: SpeakService) {}
 
 	ngOnInit(): void {}
 
@@ -43,5 +44,11 @@ export class DrawerEvenimentComponent implements OnInit {
 	toggleDrawer() {
 		console.log(this.renderService.getBoolean());
 		this.isOpen = !this.isOpen;
+	}
+
+	start(): void {
+		this.service.content = this.description;
+		this.service.start();
+		this.service.resume();
 	}
 }
