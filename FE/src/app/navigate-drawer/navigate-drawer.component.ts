@@ -38,6 +38,7 @@ export class NavigateDrawerComponent implements OnInit {
 	save() {
 		this.coolService.setAllCoords(this.path);
 		this.bestRoute.search(true);
+		this.close();
 	}
 
 	close() {
