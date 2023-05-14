@@ -7,7 +7,8 @@ import {
 	OnDestroy,
 	ComponentFactoryResolver,
 	ViewContainerRef,
-	inject
+	inject,
+	SimpleChange
 } from '@angular/core';
 import maplibregl, { Map, NavigationControl, Marker, Popup } from 'maplibre-gl';
 import * as turf from '@turf/turf';
@@ -19,6 +20,7 @@ import { ServerApi } from 'src/app/services/server.service';
 import { FilterService } from 'src/app/services/filter.service';
 import { DrawerEvenimentComponent } from 'src/app/drawer-eveniment/drawer-eveniment.component';
 import { RenderService } from 'src/app/services/render.service';
+import { solveRoute } from '@esri/arcgis-rest-routing';
 import { TrackService } from 'src/app/services/track.service';
 
 @Component({
@@ -35,6 +37,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	serverService = inject(ServerApi);
 	filterService = inject(FilterService);
 	trackService = inject(TrackService);
+	walkingMan: any;
 
 	markers: Marker[] = [];
 
@@ -65,6 +68,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
 		if (this.showAddEvent === false && this.newMarker !== undefined) {
 			this.newMarker.remove();
+		}
+
+		if (this.walkingMan !== undefined) {
+			console.log(this.walkingMan.getLngLat());
 		}
 	}
 
@@ -116,6 +123,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					});
 
 					const apiKey = 'AAPK926be3ee4d3143558107dbb85005e965dbdzAz2rYG1TGmnqf2sbgs_fBRNex_dVn5zzuispPgW1H-_oI6agdri40LpV506V';
+					let authentication: any;
 					this.map.on('click', (e: any) => {
 						const coords = e.lngLat;
 						const authentication = ApiKeyManager.fromKey(apiKey);
@@ -154,6 +162,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						},
 						trackUserLocation: true
 					});
+
+					const popup = new Popup().setHTML('<div>Hello!</div>');
+
+					this.walkingMan = new Marker({ color: '#EFCC00', draggable: true })
+						.setLngLat([longitude, latitude])
+						.setPopup(popup)
+						.addTo(this.map);
+					this.walkingMan.togglePopup();
 					// Add the control to the map.
 					this.map.addControl(geolocate, 'bottom-left');
 					// Set an event listener that fires
@@ -162,6 +178,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 						console.log('A geolocate event has occurred.');
 					});
 					this.addGeolocationBttton();
+
+					// solveRoute({
+					// 	stops: [startCoords, endCoords],
+					// 	endpoint: "https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve",
+					// 	authentication
+					// }).then((response) => {
+					// 	this.map.getSource("route").setData(response.routes.geoJson);
 
 					this.map?.addControl(new NavigationControl({}), 'bottom-left');
 
