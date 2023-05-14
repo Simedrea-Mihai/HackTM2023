@@ -71,7 +71,6 @@ hrouter.post("/proximitybuildings", async (req, res) => {
 });
 hrouter.get("/allhistoric", async (req, res) => {
   try {
-    await HModel.Del();
     const data = await HModel.GetAllHistoricalPlaces();
 
     res.status(200).send(data);
