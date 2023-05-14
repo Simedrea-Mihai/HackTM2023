@@ -3,6 +3,7 @@ import { FilterService } from '../services/filter.service';
 import { Filter } from '../Models/filter.model';
 import { DatePipe } from '@angular/common';
 import { ShowLegendService } from '../services/legen.service';
+import { TrackService } from '../services/track.service';
 
 @Component({
 	selector: 'app-bottom-nav',
@@ -15,6 +16,7 @@ export class BottomNavComponent {
 
 	filterService = inject(FilterService);
 	showLegendService = inject(ShowLegendService);
+	trackService = inject(TrackService);
 
 	resetFilter(): void {
 		const filter: Filter = { official: false, unofficial: false, startDate: null, endDate: null };
@@ -42,8 +44,13 @@ export class BottomNavComponent {
 
 		if (n == 1) {
 			this.resetFilter();
+			this.trackService.addTrackPopup(false);
 		} else if (n == 2) {
 			this.initFilter();
+			this.trackService.addTrackPopup(false);
+		} else if (n == 3) {
+			this.resetFilter();
+			this.trackService.addTrackPopup(true);
 		}
 	}
 }

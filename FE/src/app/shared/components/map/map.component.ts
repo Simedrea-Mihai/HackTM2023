@@ -19,6 +19,7 @@ import { ServerApi } from 'src/app/services/server.service';
 import { FilterService } from 'src/app/services/filter.service';
 import { DrawerEvenimentComponent } from 'src/app/drawer-eveniment/drawer-eveniment.component';
 import { RenderService } from 'src/app/services/render.service';
+import { TrackService } from 'src/app/services/track.service';
 
 @Component({
 	selector: 'app-map',
@@ -33,6 +34,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 	dataService = inject(DataService);
 	serverService = inject(ServerApi);
 	filterService = inject(FilterService);
+	trackService = inject(TrackService);
 
 	markers: Marker[] = [];
 
@@ -117,17 +119,18 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 					this.map.on('click', (e: any) => {
 						const coords = e.lngLat;
 						const authentication = ApiKeyManager.fromKey(apiKey);
-						
+
 						if (this.renderService.getBoolean() === false) {
 							this.showAddEvent = true;
 							this.renderService.setBooleanShowAddEvent(true);
 							console.log(e);
+							this.trackService.setLastPoint(e);
 
 							if (this.newMarker !== undefined) {
 								this.newMarker.remove();
 							}
 
-							// this.location = 
+							// this.location =
 							this.newMarker = new Marker({ color: '#A020F0' }).setLngLat([coords.toArray()[0], coords.toArray()[1]]).addTo(this.map);
 							this.lat = coords.toArray()[1].toString();
 							this.lon = coords.toArray()[0].toString();
@@ -237,26 +240,27 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 			} else {
 				this.serverService.getAllMonuments().subscribe((monuments) => {
 					monuments.forEach((element: any) => {
-						const marker = new maplibregl.Marker({color: '#808080', scale: 0.8}).setLngLat([element.longitude, element.latitude]).addTo(this.map);
-							this.allMarkers.push(element);
-							this.markers.push(marker);
+						const marker = new maplibregl.Marker({ color: '#808080', scale: 0.8 })
+							.setLngLat([element.longitude, element.latitude])
+							.addTo(this.map);
+						this.allMarkers.push(element);
+						this.markers.push(marker);
 
-							marker.getElement().addEventListener('click', () => {
-								const data = this.getClosestMarker(this.allMarkers, element);
-								this.name = data.name;
-								this.type = data.type;
-								this.description = data.description;
-								this.link = data.link;
-								this.date = data.date;
+						marker.getElement().addEventListener('click', () => {
+							const data = this.getClosestMarker(this.allMarkers, element);
+							this.name = data.name;
+							this.type = data.type;
+							this.description = data.description;
+							this.link = data.link;
+							this.date = data.date;
 
-								if (!this.showAddEvent) {
-									this.isMarkerClicked = true;
-									this.renderService.setBoolean(this.isMarkerClicked);
-								}
-							});
-				});
+							if (!this.showAddEvent) {
+								this.isMarkerClicked = true;
+								this.renderService.setBoolean(this.isMarkerClicked);
+							}
+						});
 					});
-					
+				});
 			}
 		});
 	}

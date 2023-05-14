@@ -21,11 +21,14 @@ export class DrawerLocationsComponent {
 		this.service.setBooleanShowAddEvent(this.isComponentInView);
 	}
 
-	addToTrack(): void {
+	showAddEvent(): void {
 		this.service.setBooleanShowAddEventForm(true);
-		const point: Point = { x: 1, y: 1 };
-		this.trackService.emitEvent(point);
-		console.log('btn pressed');
+	}
+
+	addToTrack(): void {
+		console.log('btn pressed addToTrack');
+		this.trackService.addPoint();
+		console.log('btn pressed addToTrack');
 	}
 }
 
